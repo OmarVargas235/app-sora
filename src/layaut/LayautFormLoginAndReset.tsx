@@ -8,15 +8,22 @@ import { LayautFormStyle } from './style';
 import Logo from '../assets/images/logo.png';
 import ButtonPage from '../layaut/Button';
 
+type Inputs = {
+    email: string,
+    password: string,
+};
+
 interface IProps extends RouteComponentProps<any> {
     children:ReactChild | ReactChild[] | ReactChildren | ReactChildren[];
     title: string;
     textBtn: string;
     textLink: string;
     path:string;
+    onSubmit: (model:Inputs)=>void;
+    handleSubmit: any;
 }
 
-const LayautFormLoginAndReset = ({ history, children, title, textBtn, textLink, path }:IProps) => (
+const LayautFormLoginAndReset = ({ history, children, title, textBtn, textLink, path, onSubmit, handleSubmit }:IProps):JSX.Element => (
     <LayautFormStyle className='flex flex-col justify-center items-center'>
         <img src={Logo} alt="logo" className='mb-10' />
         
@@ -30,7 +37,10 @@ const LayautFormLoginAndReset = ({ history, children, title, textBtn, textLink, 
                 {title}
             </Typography>
 
-            <form className='flex flex-col justify-center items-center w-full'>
+            <form
+                className='flex flex-col justify-center items-center w-full'
+                onSubmit={handleSubmit(onSubmit)}
+            >
 
                 {children}
 

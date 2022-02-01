@@ -1,4 +1,5 @@
 import React from 'react';
+import { Controller, Control, FieldValues } from 'react-hook-form';
 
 import { alpha, styled } from '@mui/material/styles';
 import InputBase from '@mui/material/InputBase';
@@ -44,11 +45,25 @@ const Input = styled(InputBase)(({ theme }) => ({
 export interface IProps {
     classes?:string;
     placeholder:string;
+    control:Control<FieldValues, object> | undefined;
+    name:string;
+    type?:string;
 }
 
-const BootstrapInput = ({ classes="", placeholder }:IProps):JSX.Element => (
+const BootstrapInput = ({ control, classes="", placeholder, name="", type="text" }:IProps):JSX.Element => (
     <FormControl variant="standard" className={`w-full ${classes}`}>
-        <Input defaultValue="" id="bootstrap-input" placeholder={placeholder} />
+        <Controller
+            name={name}
+            control={control}
+            render={({ field: { onChange, value } } ) => (
+                <Input
+                    placeholder={placeholder}
+                    value={value}
+                    onChange={onChange}
+                    type={type}
+                />
+            )}
+        />
     </FormControl>
 );
 
