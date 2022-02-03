@@ -6,6 +6,7 @@ import RouterApp from './routers/RouterApp';
 import { GlobalStyle } from './assets/css/global';
 import AthProvider from './auth/AuthProvider';
 import Snackbars from './layaut/Snackbars';
+import BlockUI from './layaut/BlockUI';
 
 axios.defaults.baseURL = 'http://localhost:5000/api';
 axios.defaults.headers.common['Content-Type'] = 'application/json';
@@ -22,6 +23,8 @@ function App():JSX.Element {
             </AthProvider>
 
             <Snackbars />
+
+            <BlockUI />
         </>
     )
 }
