@@ -1,11 +1,12 @@
-import React, { createContext, useEffect } from 'react';
+import React, { useState, createContext, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import history from 'history/browser';
 
-import { auth } from '../services/auth';
+import { auth } from '../services/auth/auth';
 import { IProps, ISubmitLogin } from './interfaces';
 import { showMessage } from '../redux/reducers/reducerSnack';
 import { setDataUser } from '../redux/reducers/reducerUser';
+import ScreenLoading from '../layaut/ScreenLoading';
 
 interface AuthContextInterface {
     submitLogin: ({email, password}:ISubmitLogin)=> ()=> void;
@@ -19,11 +20,11 @@ function AuthProvider({ children }:IProps):JSX.Element {
 
     const dispatch = useDispatch();
 
+    const [loading, setLoading] = useState<boolean>(true);
+
     useEffect(():void => {
 
-        const { pathname } = history.location;
-
-        !paths.includes( pathname ) && jwtCheck();
+        jwtCheck();
 
     }, []);
 
@@ -31,10 +32,18 @@ function AuthProvider({ children }:IProps):JSX.Element {
 
         auth
             .signInWithToken()
-                .then(dataUser =>  dispatch( setDataUser(dataUser) ))
+                .then(dataUser => {
+                    
+                    dispatch( setDataUser(dataUser) );
+                    setLoading(false);
+                })
                 .catch(err => {
 
-                    dispatch( showMessage({
+                    const { pathname } = history.location;
+
+                    setLoading(false);
+
+                    !paths.includes( pathname ) && dispatch( showMessage({
                         time: 3000,
                         message: Array.isArray(err) ? err : [err],
                         severity: "error",
@@ -63,7 +72,7 @@ function AuthProvider({ children }:IProps):JSX.Element {
         <AuthContext.Provider value={{
             submitLogin,
         }}>
-            {children}
+            {loading ? <ScreenLoading /> : children}
         </AuthContext.Provider>
     )
 }

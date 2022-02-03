@@ -7,6 +7,7 @@ import LoginPage from './LoginPage';
 import { AuthContext } from '../../auth/AuthProvider';
 import { defaultValues, schema, Inputs } from './utils';
 import { showMessage } from '../../redux/reducers/reducerSnack';
+import { showMessageError } from '../../utils/helper';
 
 function Login():JSX.Element {
 
@@ -21,15 +22,7 @@ function Login():JSX.Element {
 
   useEffect(() => {
 
-    if (Object.keys(errors).length === 0) return;
-
-    const messages:(string|undefined)[] = Object.values(errors).map(msg => msg.message);
-    
-    dispatch( showMessage({
-      time: 3000,
-      message: messages,
-      severity: "error",
-    }) );
+    showMessageError({ errors, dispatch });
   
   }, [errors, dispatch]);
   

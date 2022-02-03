@@ -45,33 +45,33 @@ class Auth {
     };
 
     signInWithToken = ():Promise<any> => {
-
+        
         return new Promise((resolve, reject) => {
 
             axios
-            .get('/auth/info-permisos', {
-                headers: {
-                    Authorization: this.getAccessToken(),
-                },
-            })
-            .then(({data}) => {
+                .get('/auth/info-permisos', {
+                    headers: {
+                        Authorization: this.getAccessToken(),
+                    },
+                })
+                .then(({data}) => {
 
-                if (!data.error) {
-                    
-                    this.setSession( this.getAccessToken() );
-                    resolve(data.data);
+                    if (!data.error && !!this.getAccessToken()) {
+                        
+                        this.setSession( this.getAccessToken() );
+                        resolve(data.data);
 
-                } else {
+                    } else {
 
-                    reject('No tienes permisos de autorizado');
+                        reject('No tienes permisos de autorizado');
+                        this.logout();
+                    }
+                })
+                .catch(({response}) => {
+
                     this.logout();
-                }
-            })
-            .catch(({response}) => {
-
-                this.logout();
-                reject(response.data.data);
-            });
+                    reject(response.data.data);
+                });
         });
     };
 

@@ -24,7 +24,7 @@ const ResetPasswordPage = ({ changePassword, control, handleSubmit }:IProps):JSX
             <BootstrapInput
                 classes="mb-10"
                 placeholder='Usuario o Correo'
-                name="password"
+                name="email"
                 control={control}
             />
         </LayautFormLoginAndReset>

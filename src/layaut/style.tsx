@@ -25,3 +25,13 @@ export const LayautFormStyle = styled.section`
         }
     }
 `;
+
+export const ScreenLoadingStyle = styled.div`
+    min-height: 100vh;
+    background-color: ${greenLight};
+    overflow: hidden;
+
+    .box {
+        left: calc(50% - 20px);
+    }
+`;

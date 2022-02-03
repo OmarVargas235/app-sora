@@ -63,26 +63,38 @@ const Snackbars = () => {
     useEffect(() => {
 
         const { directionTransition, time } = snack;
+        let timeout:number|undefined;
         
         setShowSnack(state => ({...state, open: snack.open}));
         setTransition(() => dictTransitions[directionTransition]);
 
-        time && setTimeout(() => {
-
+        const hidenAlert = () => {
+        
             setShowSnack(state => ({...state, open: false}));
-            dispatch( hiddenMessage() );
+            snack.open && dispatch( hiddenMessage() );
+        }
 
-        }, time);
+        time && (timeout = window.setTimeout(hidenAlert, 3000));
 
         return () => {
+
             setShowSnack({
                 open: false,
                 vertical: snack.vertical,
                 horizontal: snack.horizontal,
             });
+
+            window.clearTimeout(timeout);
         }
 
     }, [snack, dispatch]);
+
+    // const hidenAlert = useCallback(() => {
+        
+    //     setShowSnack(state => ({...state, open: false}));
+    //     snack.open && dispatch( hiddenMessage() );
+
+    // }, [dispatch, snack]);
 
     const handleClose = () => {
 
@@ -116,4 +128,4 @@ const Snackbars = () => {
     )
 }
 
-export default Snackbars;
+export default React.memo(Snackbars);
