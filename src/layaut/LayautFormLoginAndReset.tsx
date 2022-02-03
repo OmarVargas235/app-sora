@@ -8,55 +8,52 @@ import { LayautFormStyle } from './style';
 import Logo from '../assets/images/logo.png';
 import ButtonPage from '../layaut/Button';
 
-type Inputs = {
-    email: string,
-    password: string,
-};
-
 interface IProps extends RouteComponentProps<any> {
     children:ReactChild | ReactChild[] | ReactChildren | ReactChildren[];
     title: string;
     textBtn: string;
     textLink: string;
     path:string;
-    onSubmit: (model:Inputs)=>void;
+    onSubmit: (model:any)=>void;
     handleSubmit: any;
 }
 
 const LayautFormLoginAndReset = ({ history, children, title, textBtn, textLink, path, onSubmit, handleSubmit }:IProps):JSX.Element => (
-    <LayautFormStyle className='flex flex-col justify-center items-center'>
-        <img src={Logo} alt="logo" className='mb-10' />
-        
-        <div className='w-full'>
-            <Typography
-                variant="subtitle1"
-                gutterBottom
-                component="div"
-                className='font-black text-2xl'
-            >
-                {title}
-            </Typography>
+    <div className='flex justify-center items-center min-h-screen background-gray'>
+        <LayautFormStyle className='flex flex-col justify-center items-center'>
+            <img src={Logo} alt="logo" className='mb-10' />
+            
+            <div className='w-full'>
+                <Typography
+                    variant="subtitle1"
+                    gutterBottom
+                    component="div"
+                    className='font-black text-2xl'
+                >
+                    {title}
+                </Typography>
 
-            <form
-                className='flex flex-col justify-center items-center w-full'
-                onSubmit={handleSubmit(onSubmit)}
-            >
+                <form
+                    className='flex flex-col justify-center items-center w-full'
+                    onSubmit={handleSubmit(onSubmit)}
+                >
 
-                {children}
+                    {children}
 
-                <ButtonPage
-                    textBtn={textBtn}
-                />
-            </form>
-        </div>
+                    <ButtonPage
+                        textBtn={textBtn}
+                    />
+                </form>
+            </div>
 
-        <div className='w-full'>
-            <Link
-                className="cursor-pointer"
-                onClick={() => history.push(path)}
-            >{textLink}</Link>
-        </div>
-    </LayautFormStyle>
+            <div className='w-full'>
+                <Link
+                    className="cursor-pointer"
+                    onClick={() => history.push(path)}
+                >{textLink}</Link>
+            </div>
+        </LayautFormStyle>
+    </div>
 );
 
 export default withRouter(LayautFormLoginAndReset);

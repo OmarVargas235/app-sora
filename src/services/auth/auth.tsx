@@ -1,8 +1,32 @@
 import axios from 'axios';
+import jwtDecode from 'jwt-decode';
+
+interface IToken {
+    email:string;
+    exp:number;
+    iat:number;
+}
 
 class Auth {
 
-    signIn = (email:string, password:string):Promise<any> => {
+    private typeEvent:string | undefined;
+
+    public init = ():void => {
+
+        this.handleAuthentication();
+    }
+
+    private on = (event:string) => {
+
+        this.typeEvent = event;
+    }
+
+    public getEvent = ():string|undefined => {
+
+        return this.typeEvent;
+    }
+
+    public signIn = (email:string, password:string):Promise<any> => {
 
         return new Promise((resolve, reject) => {
 
@@ -30,7 +54,7 @@ class Auth {
         });
     }
 
-    setSession = (access_token:string|null):void => {
+    public setSession = (access_token:string|null):void => {
     
         if (access_token) {
     
@@ -44,7 +68,7 @@ class Auth {
         }
     };
 
-    signInWithToken = ():Promise<any> => {
+    public signInWithToken = ():Promise<any> => {
         
         return new Promise((resolve, reject) => {
 
@@ -56,7 +80,7 @@ class Auth {
                 })
                 .then(({data}) => {
 
-                    if (!data.error && !!this.getAccessToken()) {
+                    if (!data.error) {
                         
                         this.setSession( this.getAccessToken() );
                         resolve(data.data);
@@ -75,12 +99,52 @@ class Auth {
         });
     };
 
-    getAccessToken = ():string => {
+    public getAccessToken = ():string => {
 
         return window.localStorage.getItem('jwt_access_token') || "";
     };
 
-    logout = ():void => this.setSession(null);
+    public logout = ():void => this.setSession(null);
+
+    public handleAuthentication = ():void => {
+    
+        const access_token = this.getAccessToken();
+
+        if (!access_token) {
+
+            this.on('onNoAccessToken');
+
+            return;
+        }
+
+        if (this.isAuthTokenValid(access_token)) {
+
+            this.setSession(access_token);
+            this.on("onAutoLogin");
+
+        } else {
+
+            this.setSession(null);
+            this.on("onAutoLogout");
+        }
+    };
+
+    public isAuthTokenValid = (access_token:string):boolean => {
+    
+        if (!access_token) return false;
+
+        const decoded:IToken = jwtDecode(access_token);
+
+        const currentTime = Date.now() / 1000;
+
+        if (decoded.exp < currentTime) {
+            
+            console.warn('access token expired');
+            return false;
+        }
+
+        return true;
+    };
 }
 
 export const auth = new Auth();

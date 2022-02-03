@@ -8,6 +8,7 @@ import { Inputs, defaultValues, schema } from './utils';
 import { showMessageError } from '../../utils/helper';
 import { changePasswordClass } from '../../services/auth/changePassword';
 import { showMessage } from '../../redux/reducers/reducerSnack';
+import { setTokenURL } from '../../redux/reducers/reducerUser';
 
 const ResetPassword = ():JSX.Element => {
 
@@ -29,12 +30,18 @@ const ResetPassword = ():JSX.Element => {
 
         const { email } = model;
         changePasswordClass
-            .changePasswordByEmail(email)
-            .then(resp => dispatch( showMessage({
-                time: 9000,
-                message: [resp],
-                severity: "success",
-            }) ))
+            .sendEmail(email)
+            .then((resp):void => {
+
+                dispatch( showMessage({
+                    time: 9000,
+                    message: [resp.message],
+                    severity: "success",
+                }));
+
+                dispatch( setTokenURL(resp.tokenURL));
+
+            })
             .catch(err => dispatch( showMessage({
                 time: 9000,
                 message: Array.isArray(err) ? err : [err],

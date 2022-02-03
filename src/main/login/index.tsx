@@ -6,7 +6,6 @@ import { useForm } from "react-hook-form";
 import LoginPage from './LoginPage';
 import { AuthContext } from '../../auth/AuthProvider';
 import { defaultValues, schema, Inputs } from './utils';
-import { showMessage } from '../../redux/reducers/reducerSnack';
 import { showMessageError } from '../../utils/helper';
 
 function Login():JSX.Element {

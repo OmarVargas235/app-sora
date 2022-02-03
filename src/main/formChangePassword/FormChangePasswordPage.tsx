@@ -1,8 +1,8 @@
 import React from 'react';
 import { UseFormHandleSubmit } from 'react-hook-form';
 
-import BootstrapInput from '../../layaut/BootstrapInput';
 import LayautFormLoginAndReset from '../../layaut/LayautFormLoginAndReset';
+import BootstrapInput from '../../layaut/BootstrapInput';
 import { Inputs } from './utils';
 
 interface IProps {
@@ -11,7 +11,7 @@ interface IProps {
     control:any;
 }
 
-const ResetPasswordPage = ({ changePassword, control, handleSubmit }:IProps):JSX.Element => (
+const FormChangePasswordPage = ({ changePassword, control, handleSubmit }:IProps) => (
     <LayautFormLoginAndReset
         title="Restablecer contraseña"
         textBtn="Restablecer"
@@ -21,12 +21,21 @@ const ResetPasswordPage = ({ changePassword, control, handleSubmit }:IProps):JSX
         handleSubmit={handleSubmit}
     >
         <BootstrapInput
-            classes="mb-10"
-            placeholder='Usuario o Correo'
-            name="email"
+            classes="mb-2"
+            placeholder='Ingrese la contraseña'
+            name="password"
             control={control}
+            type="password"
+        />
+
+        <BootstrapInput
+            classes="mb-8"
+            placeholder='Repita la contraseña'
+            name="repeatPassword"
+            control={control}
+            type="password"
         />
     </LayautFormLoginAndReset>
-)
+);
 
-export default ResetPasswordPage;
+export default FormChangePasswordPage;

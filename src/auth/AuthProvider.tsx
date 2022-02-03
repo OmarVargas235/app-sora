@@ -1,6 +1,5 @@
 import React, { useState, createContext, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import history from 'history/browser';
 
 import { auth } from '../services/auth/auth';
 import { IProps, ISubmitLogin } from './interfaces';
@@ -14,8 +13,6 @@ interface AuthContextInterface {
 
 export const AuthContext = createContext<AuthContextInterface | null>(null);
 
-const paths:string[] = ['/login', '/resetpassword'];
-
 function AuthProvider({ children }:IProps):JSX.Element {
 
     const dispatch = useDispatch();
@@ -24,31 +21,59 @@ function AuthProvider({ children }:IProps):JSX.Element {
 
     useEffect(():void => {
 
-        jwtCheck();
+        Promise.all([
+
+            jwtCheck(),
+
+        ]).then(() => setLoading(false));
 
     }, []);
 
-    const jwtCheck = ():void => {
+    const jwtCheck = ():Promise<void> => {
 
-        auth
-            .signInWithToken()
-                .then(dataUser => {
-                    
-                    dispatch( setDataUser(dataUser) );
-                    setLoading(false);
-                })
-                .catch(err => {
+        return new Promise((resolve) => {
+            
+            auth.init();
 
-                    const { pathname } = history.location;
+            const event:string|undefined = auth.getEvent();
 
-                    setLoading(false);
+            if (event === 'onAutoLogin') {
+                
+                auth
+                .signInWithToken()
+                    .then(dataUser => {
+                        
+                        dispatch( setDataUser(dataUser) );
+                        resolve();
+                    })
+                    .catch(err => {
+                        
+                        resolve();
 
-                    !paths.includes( pathname ) && dispatch( showMessage({
-                        time: 3000,
-                        message: Array.isArray(err) ? err : [err],
-                        severity: "error",
-                    }) );
-                });
+                        dispatch( showMessage({
+                            time: 3000,
+                            message: Array.isArray(err) ? err : [err],
+                            severity: "error",
+                        }) );
+                    });
+
+            } else if (event === "onAutoLogout") {
+
+                dispatch( showMessage({
+                    time: 3000,
+                    message: ['Sesion expirada'],
+                    severity: "error",
+                }) );
+
+                resolve();
+            
+            } else if (event === "onNoAccessToken") {
+
+                resolve();
+            }
+
+            return Promise.resolve();
+        });
     }
 
     const submitLogin = ({email, password}:ISubmitLogin) => async () => {
