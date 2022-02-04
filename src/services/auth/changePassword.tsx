@@ -1,5 +1,7 @@
 import axios from "axios";
 
+import { IChangePassword, ISenedEmail, IVerifyTokenURL } from "../interfaces";
+
 interface IResponse {
     message:string;
     tokenURL:string;
@@ -7,14 +9,14 @@ interface IResponse {
 
 class ChangePassword {
 
-    public sendEmail(email:string):Promise<IResponse> {
+    public sendEmail({email}:ISenedEmail):Promise<IResponse> {
 
         return new Promise((resolve, reject) => {
 
             axios.put('/auth/send-email', {
                 email,
             })
-            .then(({data}:any) => {
+            .then(({ data }) => {
 
                 const obj:IResponse = {message: data.data, tokenURL: data.tokenUrl};
 
@@ -31,7 +33,7 @@ class ChangePassword {
         });
     }
 
-    public changePassword(password:string, repeatPassword:string, token:string):Promise<void> {
+    public changePassword({password, repeatPassword, token}:IChangePassword):Promise<void> {
 
         return new Promise((resolve, reject) => {
 
@@ -40,7 +42,7 @@ class ChangePassword {
                 "repeatPassword": repeatPassword,
                 "tokenURL": token
             })
-            .then(({data}:any) => {
+            .then(({ data }) => {
 
                 !data.error
                 ? resolve(data.data)
@@ -54,7 +56,7 @@ class ChangePassword {
         });
     }
 
-    public verifyTokenURL(token:string):Promise<void> {
+    public verifyTokenURL({token}:IVerifyTokenURL):Promise<void> {
 
         return new Promise((resolve, reject) => {
 
@@ -63,7 +65,7 @@ class ChangePassword {
                     Authorization: token,
                 },
             })
-            .then(({data}) => {
+            .then(({ data }) => {
 
                 !data.error
                 ? resolve(data.data)

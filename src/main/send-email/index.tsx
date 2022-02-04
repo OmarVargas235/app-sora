@@ -3,14 +3,16 @@ import { useDispatch } from 'react-redux';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from "react-hook-form";
 
-import ResetPasswordPage from './ResetPasswordPage';
 import { Inputs, defaultValues, schema } from './utils';
 import { showMessageError } from '../../utils/helper';
 import { changePasswordClass } from '../../services/auth/changePassword';
 import { showMessage } from '../../redux/reducers/reducerSnack';
 import { setTokenURL } from '../../redux/reducers/reducerUser';
+import SendResetPasswordPage from './SendResetPasswordPage';
+import { setActive } from '../../redux/reducers/reducerBlockUI';
+import { callAPI } from '../../utils/callAPI';
 
-const ResetPassword = ():JSX.Element => {
+const SendResetPassword = ():JSX.Element => {
 
     const dispatch = useDispatch();
 
@@ -19,41 +21,20 @@ const ResetPassword = ():JSX.Element => {
         resolver: yupResolver(schema),
     });
 
-    useEffect(() => {
-
-        showMessageError({ errors, dispatch });
+    useEffect(() => showMessageError({ errors, dispatch }), [errors, dispatch]);
     
-    }, [errors, dispatch]);
-    
-
     const changePassword = (model:Inputs):void => {
 
-        const { email } = model;
-        changePasswordClass
-            .sendEmail(email)
-            .then((resp):void => {
-
-                dispatch( showMessage({
-                    time: 9000,
-                    message: [resp.message],
-                    severity: "success",
-                }));
-
-                dispatch( setTokenURL(resp.tokenURL));
-
-            })
-            .catch(err => dispatch( showMessage({
-                time: 9000,
-                message: Array.isArray(err) ? err : [err],
-                severity: "error",
-            }) ));
+        dispatch( setActive() );
+        
+        callAPI({ service: changePasswordClass, typeService: "sendEmail", data: model, dispatch, history: null });
     }
     
-    return <ResetPasswordPage
+    return <SendResetPasswordPage
         changePassword={changePassword}
         control={control}
         handleSubmit={handleSubmit}
     />
 }
 
-export default ResetPassword;
+export default SendResetPassword;

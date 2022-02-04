@@ -11,7 +11,7 @@ interface IProps {
     control:any;
 }
 
-const ResetPasswordPage = ({ changePassword, control, handleSubmit }:IProps):JSX.Element => (
+const SendResetPasswordPage = ({ changePassword, control, handleSubmit }:IProps):JSX.Element => (
     <LayautFormLoginAndReset
         title="Restablecer contraseña"
         textBtn="Restablecer"
@@ -29,4 +29,4 @@ const ResetPasswordPage = ({ changePassword, control, handleSubmit }:IProps):JSX
     </LayautFormLoginAndReset>
 )
 
-export default ResetPasswordPage;
+export default SendResetPasswordPage;

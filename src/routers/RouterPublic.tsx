@@ -2,7 +2,7 @@ import React from 'react';
 import { Route, Redirect } from "react-router-dom";
 
 import Login from '../main/login/';
-import ResetPassword from '../main/reset-password/';
+import SendResetPassword from '../main/send-email';
 
 const RouterPublic = () => (
     <>
@@ -11,7 +11,7 @@ const RouterPublic = () => (
         </Route>
 
         <Route path="/resetpassword">
-            <ResetPassword />
+            <SendResetPassword />
         </Route>
 
         <Redirect from="/" to="/login" />

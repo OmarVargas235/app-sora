@@ -9,6 +9,8 @@ import { defaultValues, Inputs, schema } from './utils';
 import { showMessageError } from '../../utils/helper';
 import { changePasswordClass } from '../../services/auth/changePassword';
 import { showMessage } from '../../redux/reducers/reducerSnack';
+import { callAPI, callAPICatch } from '../../utils/callAPI';
+import { setActive } from '../../redux/reducers/reducerBlockUI';
 
 const FormChangePassword = () => {
 
@@ -30,18 +32,7 @@ const FormChangePassword = () => {
 
         const { token }:any = params;
 
-        changePasswordClass
-            .verifyTokenURL(token)
-            .catch(err => {
-
-                err && dispatch( showMessage({
-                    time: 9000,
-                    message: ["Solicita otro cambio de contraseña, por favor"],
-                    severity: "warning",
-                }) );
-
-                err && history.replace('/');
-            } );
+        callAPICatch({ service: changePasswordClass, typeService: "verifyTokenURL", data: {token}, dispatch, history });
 
     }, []);
     
@@ -49,24 +40,10 @@ const FormChangePassword = () => {
 
         const { password, repeatPassword } = model;
         const { token }:any = params;
-        
-        changePasswordClass
-            .changePassword(password, repeatPassword, token)
-            .then(resp => {
+        const data = { password, repeatPassword, token };
 
-                dispatch( showMessage({
-                    time: 9000,
-                    message: [resp],
-                    severity: "success",
-                }));
-
-                history.replace('/');
-            })
-            .catch(err => dispatch( showMessage({
-                time: 9000,
-                message: Array.isArray(err) ? err : [err],
-                severity: "error",
-            }) ));
+        dispatch( setActive() );
+        callAPI({ service: changePasswordClass, typeService: "changePassword", data, dispatch, history });
     }
 
     return <FormChangePasswordPage

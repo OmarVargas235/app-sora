@@ -6,6 +6,7 @@ import { IProps, ISubmitLogin } from './interfaces';
 import { showMessage } from '../redux/reducers/reducerSnack';
 import { setDataUser } from '../redux/reducers/reducerUser';
 import ScreenLoading from '../layaut/ScreenLoading';
+import { setDesactive } from '../redux/reducers/reducerBlockUI';
 
 interface AuthContextInterface {
     submitLogin: ({email, password}:ISubmitLogin)=> ()=> void;
@@ -80,7 +81,11 @@ function AuthProvider({ children }:IProps):JSX.Element {
         
         return auth
             .signIn(email, password)
-            .then(data => jwtCheck())
+            .then(data => {
+
+                jwtCheck();
+                dispatch( setDesactive() );
+            })
             .catch(err => {
 
                 const isArray = Array.isArray(err);
@@ -90,6 +95,8 @@ function AuthProvider({ children }:IProps):JSX.Element {
                     message: isArray ? err : [err],
                     severity: "error",
                 }) );
+
+                dispatch( setDesactive() );
             });
     }
     

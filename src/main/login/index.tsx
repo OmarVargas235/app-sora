@@ -7,6 +7,7 @@ import LoginPage from './LoginPage';
 import { AuthContext } from '../../auth/AuthProvider';
 import { defaultValues, schema, Inputs } from './utils';
 import { showMessageError } from '../../utils/helper';
+import { setActive } from '../../redux/reducers/reducerBlockUI';
 
 function Login():JSX.Element {
 
@@ -32,6 +33,7 @@ function Login():JSX.Element {
 
     if (!submitLogin) return;
 
+    dispatch( setActive() );
     dispatch( submitLogin(model) );
   }
   
