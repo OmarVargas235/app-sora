@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import { white, greenLight, gray } from '../assets/css/colors';
+import { white, greenLight, gray, darkGray } from '../assets/css/colors';
 
 export const LayautFormStyle = styled.section`
     border: 1px solid rgba(0,0,0,.1);
@@ -43,4 +43,40 @@ export const StyleBlockUI = styled.div`
     z-index: 1;
     top: 0;
     width: 100%;
+`;
+
+export const StyleNavbar = styled.div`
+    transition: color .2s ease-in-out;
+    
+    .text-navbar {
+    
+        &:hover {
+            color: ${greenLight};
+        }
+    }
+
+    .menu {
+        transition: background-color .2s ease-in-out;
+
+        &:hover {
+            background-color: rgba(254, 254, 254, .8);
+            color: ${darkGray};
+        }
+    }
+`;
+
+export const StyleListItem = styled.div`
+    .rotate-180 {
+        transform: rotateZ(180deg);
+    }
+
+    input {
+        &:focus-visible {
+            outline: none;
+        }
+    }
+
+    span {
+        color: #343A40;
+    }
 `;

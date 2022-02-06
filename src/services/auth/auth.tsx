@@ -44,12 +44,12 @@ class Auth {
                     
                     resolve("Logeado con exito");
     
-                } else reject(data.message);
+                } else reject(data.data);
 
             })
             .catch(({response}) => {
-
-                reject(response.data.data);
+                
+                reject("Ha ocurrido un problema");
             });
         });
     }
@@ -99,14 +99,14 @@ class Auth {
         });
     };
 
-    public getAccessToken = ():string => {
+    private getAccessToken = ():string => {
 
         return window.localStorage.getItem('jwt_access_token') || "";
     };
 
     public logout = ():void => this.setSession(null);
 
-    public handleAuthentication = ():void => {
+    private handleAuthentication = ():void => {
     
         const access_token = this.getAccessToken();
 
@@ -129,7 +129,7 @@ class Auth {
         }
     };
 
-    public isAuthTokenValid = (access_token:string):boolean => {
+    private isAuthTokenValid = (access_token:string):boolean => {
     
         if (!access_token) return false;
 

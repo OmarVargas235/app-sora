@@ -11,7 +11,7 @@ interface IProps {
     control:any;
 }
 
-const FormChangePasswordPage = ({ changePassword, control, handleSubmit }:IProps) => (
+const FormChangePasswordPage = ({ changePassword, control, handleSubmit }:IProps):JSX.Element => (
     <LayautFormLoginAndReset
         title="Restablecer contraseña"
         textBtn="Restablecer"

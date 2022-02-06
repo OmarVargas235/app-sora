@@ -4,7 +4,7 @@ import CircularProgress, {
   CircularProgressProps,
 } from '@mui/material/CircularProgress';
 
-function FacebookCircularProgress(props: CircularProgressProps) {
+function FacebookCircularProgress(props: CircularProgressProps):JSX.Element {
     return (
         <Box sx={{ position: 'relative' }} className="box">
             <CircularProgress

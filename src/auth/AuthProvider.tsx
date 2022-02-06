@@ -82,7 +82,7 @@ function AuthProvider({ children }:IProps):JSX.Element {
         return auth
             .signIn(email, password)
             .then(data => {
-
+                
                 jwtCheck();
                 dispatch( setDesactive() );
             })

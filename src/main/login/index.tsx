@@ -20,12 +20,7 @@ function Login():JSX.Element {
 
   const context = useContext(AuthContext);
 
-  useEffect(() => {
-
-    showMessageError({ errors, dispatch });
-  
-  }, [errors, dispatch]);
-  
+  useEffect(() => showMessageError({ errors, dispatch }), [errors, dispatch]);
 
   const signIn = (model:Inputs):void => {
 

@@ -1,5 +1,6 @@
 export const gray:string = '#3d464d';
 export const grayLight:string = '#CED4DA';
+export const darkGray:string = '#343A40';
 export const backgroundGray:string = '#F7F7F7';
 
 export const white:string = 'white';

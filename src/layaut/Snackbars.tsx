@@ -44,7 +44,7 @@ const dictTransitions:any = {
     down: TransitionDown,
 }
 
-const Snackbars = () => {
+const Snackbars = ():JSX.Element => {
 
     const dispatch = useDispatch();
     const { snack } = useSelector((state:RootState) => state);
@@ -89,14 +89,7 @@ const Snackbars = () => {
 
     }, [snack, dispatch]);
 
-    // const hidenAlert = useCallback(() => {
-        
-    //     setShowSnack(state => ({...state, open: false}));
-    //     snack.open && dispatch( hiddenMessage() );
-
-    // }, [dispatch, snack]);
-
-    const handleClose = () => {
+    const handleClose = ():void => {
 
         setShowSnack({ ...showSnack, open: false });
         dispatch( hiddenMessage() );

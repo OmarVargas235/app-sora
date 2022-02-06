@@ -8,11 +8,10 @@ import FormChangePasswordPage from './FormChangePasswordPage';
 import { defaultValues, Inputs, schema } from './utils';
 import { showMessageError } from '../../utils/helper';
 import { changePasswordClass } from '../../services/auth/changePassword';
-import { showMessage } from '../../redux/reducers/reducerSnack';
 import { callAPI, callAPICatch } from '../../utils/callAPI';
 import { setActive } from '../../redux/reducers/reducerBlockUI';
 
-const FormChangePassword = () => {
+const FormChangePassword = ():JSX.Element => {
 
     const dispatch = useDispatch();
 
@@ -34,7 +33,7 @@ const FormChangePassword = () => {
 
         callAPICatch({ service: changePasswordClass, typeService: "verifyTokenURL", data: {token}, dispatch, history });
 
-    }, []);
+    }, [dispatch, params, history]);
     
     const changePassword = (model:Inputs):void => {
 

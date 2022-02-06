@@ -1,8 +1,9 @@
 import { setDesactive } from "../redux/reducers/reducerBlockUI";
 import { showMessage } from "../redux/reducers/reducerSnack";
 import { setTokenURL } from "../redux/reducers/reducerUser";
+import { ICallAPI } from "./interface";
 
-export const callAPI = ({ service, typeService, data, dispatch, history }:any) => {
+export const callAPI = ({ service, typeService, data, dispatch, history }:ICallAPI):void => {
 
     service[typeService](data)
         .then((resp:any) => {
@@ -30,7 +31,7 @@ export const callAPI = ({ service, typeService, data, dispatch, history }:any) =
         });
 }
 
-export const callAPICatch = ({ service, typeService, data, dispatch, history }:any) => {
+export const callAPICatch = ({ service, typeService, data, dispatch, history }:ICallAPI):void => {
 
     service[typeService](data)
         .catch((err:any) => {
@@ -41,7 +42,7 @@ export const callAPICatch = ({ service, typeService, data, dispatch, history }:a
                 severity: "warning",
             }) );
 
-            err && history.replace('/');
+            err && history?.replace('/');
             dispatch( setDesactive() );
         } );
 }
