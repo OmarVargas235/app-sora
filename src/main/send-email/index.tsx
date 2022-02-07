@@ -6,8 +6,6 @@ import { useForm } from "react-hook-form";
 import { Inputs, defaultValues, schema } from './utils';
 import { showMessageError } from '../../utils/helper';
 import { changePasswordClass } from '../../services/auth/changePassword';
-import { showMessage } from '../../redux/reducers/reducerSnack';
-import { setTokenURL } from '../../redux/reducers/reducerUser';
 import SendResetPasswordPage from './SendResetPasswordPage';
 import { setActive } from '../../redux/reducers/reducerBlockUI';
 import { callAPI } from '../../utils/callAPI';

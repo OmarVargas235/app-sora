@@ -1,9 +1,3 @@
-import Box from '@mui/material/Box';
-import CircularProgress, {
-  circularProgressClasses,
-  CircularProgressProps,
-} from '@mui/material/CircularProgress';
-
 import { ScreenLoadingStyle } from './style';
 import Spinner from './Spinner';
 

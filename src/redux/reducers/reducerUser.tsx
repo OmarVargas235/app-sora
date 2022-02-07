@@ -1,10 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+import { IModule } from '../../utils/interface';
+
 export interface IInitState {
   email: string;
   name: string;
   id: string;
   tokenURL:string;
+  modules: IModule[];
 }
 
 const initialState: IInitState = {
@@ -12,6 +15,7 @@ const initialState: IInitState = {
   email: "",
   id: "",
   tokenURL: "",
+  modules: [],
 }
 
 export const userSlice = createSlice({

@@ -15,7 +15,7 @@ import MenuItem from '@mui/material/MenuItem';
 import { darkGray } from '../../assets/css/colors';
 import { StyleNavbar } from '../style';
 
-const useStyles = makeStyles<ClassNameMap>(():any => ({
+const useStyles = makeStyles<ClassNameMap>(() => ({
     toolbar: {
         minHeight: '40px',
     }

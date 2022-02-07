@@ -1,23 +1,26 @@
 import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 
 import { styled, Theme, CSSObject } from '@mui/material/styles';
 import List from '@mui/material/List';
 import Icon from '@mui/material/Icon';
 import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
 import MuiDrawer from '@mui/material/Drawer';
-import Collapse from '@mui/material/Collapse';
 
+import ListsModules from './ListsModules';
 import { greenLight } from '../../assets/css/colors';
 import { StyleListItem } from '../style';
+import { RootState } from '../../redux/reducers/';
+import { IModule } from '../../utils/interface';
+import { IOpenSubMenu } from '../interfaces';
 
-const drawerWidth:number = 240;
+const drawerWidth:number = 255;
 
 const openedMixin = (theme: Theme): CSSObject => ({
     width: drawerWidth,
     backgroundColor: greenLight,
-    // marginTop: "40px",
+    marginTop: "0px",
     transition: theme.transitions.create('width', {
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.enteringScreen,
@@ -33,7 +36,7 @@ const closedMixin = (theme: Theme): CSSObject => ({
     overflowX: 'hidden',
     width: `calc(${theme.spacing(7)} + 1px)`,
     backgroundColor: greenLight,
-    // marginTop: "40px",
+    marginTop: "20px",
     [theme.breakpoints.up('sm')]: {
         width: `calc(${theme.spacing(7)} + 1px)`,
     },
@@ -62,44 +65,53 @@ interface IProps {
     handleDrawerOpen:()=>void;
 }
 
-interface IOpenSubMenu {
-    [key: string]: boolean;
-}
-
 const OptionsPage = ({ open, handleDrawerClose, handleDrawerOpen }:IProps) => {
 
-    const [isOpenSubMenu, setIsOpenSubMenu] = useState<IOpenSubMenu>({
-        inventory: false,
-        customers: false,
-        shop: false,
-        entry: false,
-        leave: false,
-        setting: false,
-    });
+    const { user } = useSelector((state:RootState) => state);
+
+    const [isOpenSubMenu, setIsOpenSubMenu] = useState<IOpenSubMenu>({});
+    const [modules, setModules] = useState<IModule[]>(user.modules);
 
     useEffect(() => {
-      
-        !open && setIsOpenSubMenu({
-            inventory: false,
-            customers: false,
-            shop: false,
-            entry: false,
-            leave: false,
-            setting: false,
-        });
+
+        const dict:IOpenSubMenu = {};
+
+        modules.forEach((module:IModule) => (dict[module.id] = false));
+
+        setIsOpenSubMenu(dict);
     
+    }, [modules]);
+    
+
+    useEffect(() => {
+
+        !open && setIsOpenSubMenu({});
+
     }, [open]);
 
     const openSubMenu = (id:string):void => {
+
+        if (!open) return;
 
         const activeSubMenu = { ...isOpenSubMenu };
         activeSubMenu[id] = !activeSubMenu[id];
 
         setIsOpenSubMenu(activeSubMenu);
     }
-    
+
+    const searchModule = (e:React.ChangeEvent<HTMLInputElement>) => {
+
+        const text:string = e.target.value;
+        const { modules:modulesRedux } = user;
+
+        const filterData = modulesRedux.filter(({module}) => (
+            module.toLowerCase().indexOf(text.toLowerCase()) !== -1 ));
+        
+        setModules(filterData);
+    }
+
     return (
-        <StyleListItem>
+        <StyleListItem open={open}>
             <Drawer
                 variant="permanent"
                 open={open}
@@ -115,56 +127,21 @@ const OptionsPage = ({ open, handleDrawerClose, handleDrawerOpen }:IProps) => {
                         
                         <Icon>search</Icon>
 
-                        {
-                            open ? <input
-                                type="text"
-                                placeholder="Busqueda menu"
-                                className="p-2 rounded-2xl placeholder-black::placeholder"
-                            /> : null
-                        }
+                        <input
+                            type="text"
+                            placeholder="Busqueda menu"
+                            className="p-2 rounded-2xl placeholder-black::placeholder"
+                            onChange={searchModule}
+                        />
                     </ListItem>
                 </List>
 
-                <List
-                    className="pt-0"
-                    component="nav"
-                    aria-labelledby="nested-list-subheader"
-                >
-                    {[
-                        {icon: 'inventory_icon', text: 'Inventario', id: 'inventory'},
-                        {icon: 'support_agent_icon', text: 'Clientes', id: 'customers'},
-                        {icon: 'shop_icon', text: 'Compras', id: 'shop'},
-                        {icon: 'moving_icon', text: 'Entradas', id: 'entry'},
-                        {icon: 'moving_icon', text: 'Salidas', id: 'leave'},
-                        {icon: 'settings_icon', text: 'Configuración', id: 'setting'}
-                    ].map((data, index) => (
-                        <React.Fragment key={data.text}>
-                            <ListItem button onClick={() => openSubMenu(data.id)}>
-                                <ListItemIcon>
-                                    <Icon
-                                        className={data.text === 'Salidas' ? 'rotate-180' : ''}
-                                    >{data.icon}</Icon>
-                                </ListItemIcon>
-
-                                <ListItemText primary={data.text} />
-
-                                {
-                                    isOpenSubMenu[data.id]
-                                    ? <Icon>expand_less</Icon>
-                                    : <Icon>expand_more</Icon>
-                                }
-                            </ListItem>
-
-                            <Collapse in={isOpenSubMenu[data.id]} timeout="auto" unmountOnExit>
-                                <List component="div" disablePadding>
-                                    <ListItem sx={{ pl: 4 }}>
-                                        <ListItemText primary="Starred" />
-                                    </ListItem>
-                                </List>
-                            </Collapse>
-                        </React.Fragment>
-                    ))}
-                </List>
+                <ListsModules
+                    modules={modules}
+                    openSubMenu={openSubMenu}
+                    isOpenSubMenu={isOpenSubMenu}
+                    open={open}
+                />
 
                 <List className="p-0">
                     <ListItem

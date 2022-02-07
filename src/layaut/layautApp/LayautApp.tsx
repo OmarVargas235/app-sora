@@ -7,8 +7,6 @@ import CssBaseline from '@mui/material/CssBaseline';
 import NavbarPage from './NavbarPage';
 import OptionsPage from './OptionsPage';
 
-const drawerWidth:number = 240;
-
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })<{
   open?: boolean;
 }>(({ theme, open }) => ({

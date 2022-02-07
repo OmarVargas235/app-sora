@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
 import { white, greenLight, gray, darkGray } from '../assets/css/colors';
+import { IStyleListItem } from './interfaces';
 
 export const LayautFormStyle = styled.section`
     border: 1px solid rgba(0,0,0,.1);
@@ -71,6 +72,8 @@ export const StyleListItem = styled.div`
     }
 
     input {
+        opacity: ${({open}:IStyleListItem) => open ? 1 : 0};
+
         &:focus-visible {
             outline: none;
         }
