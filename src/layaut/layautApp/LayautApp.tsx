@@ -57,7 +57,7 @@ const LayautApp = ({ children }:IProps):JSX.Element => {
       handleDrawerOpen={handleDrawerOpen}
     />
 
-    <Main open={open}>
+    <Main open={open} className={`overflow-hidden ${open ? '' : "pr-16"}`}>
       <DrawerHeader />
       {children}
     </Main>

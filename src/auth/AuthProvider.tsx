@@ -8,8 +8,9 @@ import { setDataUser } from '../redux/reducers/reducerUser';
 import ScreenLoading from '../layaut/ScreenLoading';
 import { setDesactive } from '../redux/reducers/reducerBlockUI';
 
-interface AuthContextInterface {
+export interface AuthContextInterface {
     submitLogin: ({email, password}:ISubmitLogin)=> ()=> void;
+    isAuth:boolean;
 }
 
 export const AuthContext = createContext<AuthContextInterface | null>(null);
@@ -19,6 +20,7 @@ function AuthProvider({ children }:IProps):JSX.Element {
     const dispatch = useDispatch();
 
     const [loading, setLoading] = useState<boolean>(true);
+    const [isAuth, setIsAuth] = useState<boolean>(false);
 
     useEffect(():void => {
 
@@ -46,6 +48,7 @@ function AuthProvider({ children }:IProps):JSX.Element {
                         
                         dispatch( setDataUser(dataUser) );
                         resolve();
+                        setIsAuth(true);
                     })
                     .catch(err => {
                         
@@ -67,10 +70,12 @@ function AuthProvider({ children }:IProps):JSX.Element {
                 }) );
 
                 resolve();
+                setIsAuth(false);
             
             } else if (event === "onNoAccessToken") {
 
                 resolve();
+                setIsAuth(false);
             }
 
             return Promise.resolve();
@@ -103,6 +108,7 @@ function AuthProvider({ children }:IProps):JSX.Element {
     return (
         <AuthContext.Provider value={{
             submitLogin,
+            isAuth,
         }}>
             {loading ? <ScreenLoading /> : children}
         </AuthContext.Provider>

@@ -1,19 +1,21 @@
 import React from 'react';
 import { Route, Redirect, Switch } from "react-router-dom";
 
-import LayautApp from '../layaut/layautApp/LayautApp';
 import Home from '../main/home/';
+import User from '../main/users/';
 
 const RouterPrivate = () => (
-    <LayautApp>
-        <Switch>
-                <Route path="/home">
-                    <Home />
-                </Route>
+    <Switch>
+        <Route path="/home">
+            <Home />
+        </Route>
 
-            <Redirect from="/" to="/home" />
-        </Switch>
-    </LayautApp>
+        <Route path="/usuarios">
+            <User />
+        </Route>
+
+        <Redirect from="/" to="/home" />
+    </Switch>
 )
 
 export default RouterPrivate;

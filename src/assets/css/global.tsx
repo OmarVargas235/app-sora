@@ -8,6 +8,10 @@ export const GlobalStyle = createGlobalStyle`
         background-color: ${white};
     }
 
+    h5 {
+        color: ${gray};
+    }
+
     .background-gray {
         background-color: ${backgroundGray};
     }

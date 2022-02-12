@@ -3,22 +3,18 @@ import {
     Switch,
     Route,
 } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { useEffect, useState } from "react";
+import { useContext } from 'react';
 
-import { RootState } from '../redux/reducers/';
 import RouterPrivate from './RouterPrivate';
 import RouterPublic from './RouterPublic';
+import { AuthContext } from '../auth/AuthProvider';
 
 import FormChangePassword from '../main/formChangePassword/';
+import LayautApp from '../layaut/layautApp/LayautApp';
 
 const RouterApp = ():JSX.Element => {
 
-    const { user } = useSelector((state:RootState) => state);
-
-    const [isAuth, setIsAuth] = useState(false);
-    
-    useEffect(() => setIsAuth( user.name?.length > 0 ), [user]);
+    const { isAuth }:any = useContext( AuthContext );
 
     return (
         <Router>
@@ -27,7 +23,7 @@ const RouterApp = ():JSX.Element => {
                     <FormChangePassword />
                 </Route>
 
-                { isAuth ? <RouterPrivate /> : <RouterPublic /> }
+                { isAuth ? <LayautApp> <RouterPrivate /> </LayautApp> : <RouterPublic /> }
             </Switch>
         </Router>
     );

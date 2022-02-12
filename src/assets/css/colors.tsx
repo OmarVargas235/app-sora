@@ -6,3 +6,6 @@ export const backgroundGray:string = '#F7F7F7';
 export const white:string = 'white';
 
 export const greenLight:string = '#C2EF7E';
+export const greenExel:string = '#4CAE4C';
+
+export const blue:string = '#2D6DA3';

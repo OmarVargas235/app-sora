@@ -6,9 +6,9 @@ export interface IDefaultsValues {
 }
 
 export type Inputs = {
-    email: string,
-    password: string,
-  };
+	email: string,
+	password: string,
+};
 
 export const defaultValues:IDefaultsValues = {
 	email: '',

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 
 import List from '@mui/material/List';
 import Icon from '@mui/material/Icon';
@@ -22,6 +23,8 @@ interface IIsOpenReports {
 }
 
 const ListsModules = ({ modules, openSubMenu, isOpenSubMenu, open }:IProps) => {
+
+    const history = useHistory();
 
     const [isOpenReports, setIsOpenReports] = useState<IIsOpenReports>({});
 
@@ -49,6 +52,8 @@ const ListsModules = ({ modules, openSubMenu, isOpenSubMenu, open }:IProps) => {
         const key = name+"_"+index;
         const activeReports = { ...isOpenReports };
         activeReports[key] = !activeReports[key];
+
+        history.push(`/${name.toLocaleLowerCase()}`);
 
         setIsOpenReports(activeReports);
     }
@@ -87,7 +92,7 @@ const ListsModules = ({ modules, openSubMenu, isOpenSubMenu, open }:IProps) => {
                                             sx={{ pl: 4 }}
                                             
                                             onClick={() => openProgram(typeof program === 'string'
-                                            ? "" : program.name, index)
+                                            ? program : program.name, index)
                                         }>
                                             <ListItemText
                                                 primary={
