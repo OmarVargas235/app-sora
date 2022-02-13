@@ -35,11 +35,13 @@ export interface IProps {
   isPrimary?:boolean;
   typeSize?:size;
   nameIcon?:string;
+  handleClick?:()=>void;
 }
 
-const ButtonPage = ({ textBtn, typeTheme="grayTheme", isContained=true, isPrimary=true, typeSize="large", nameIcon="" }:IProps):JSX.Element => (
+const ButtonPage = ({ textBtn, typeTheme="grayTheme", isContained=true, isPrimary=true, typeSize="large", nameIcon="", handleClick=()=>{} }:IProps):JSX.Element => (
   <ThemeProvider theme={typeTheme === "grayTheme" ? grayTheme : theme}>
       <Button
+          onClick={handleClick}
           variant={isContained ? "contained" : "outlined"}
           type="submit"
           className='btn'

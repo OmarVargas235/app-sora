@@ -8,7 +8,7 @@ export const GlobalStyle = createGlobalStyle`
         background-color: ${white};
     }
 
-    h5 {
+    h5, h6 {
         color: ${gray};
     }
 

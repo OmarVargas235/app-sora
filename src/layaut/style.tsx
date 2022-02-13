@@ -83,3 +83,9 @@ export const StyleListItem = styled.div`
         color: #343A40;
     }
 `;
+
+export const StyleInput = styled.div`
+    input {
+        padding: ${({isPadding}:{isPadding:boolean}) => isPadding ? '10px 12px' : '5px 12px'};
+    }
+`;

@@ -6,6 +6,7 @@ import InputBase from '@mui/material/InputBase';
 import FormControl from '@mui/material/FormControl';
 
 import { grayLight } from '../assets/css/colors';
+import { StyleInput } from './style';
 
 const Input = styled(InputBase)(({ theme }) => ({
     'label + &': {
@@ -16,7 +17,6 @@ const Input = styled(InputBase)(({ theme }) => ({
         position: 'relative',
         border: '1px solid '+grayLight,
         fontSize: 16,
-        padding: '10px 12px',
         transition: theme.transitions.create([
             'border-color',
             'background-color',
@@ -44,26 +44,31 @@ const Input = styled(InputBase)(({ theme }) => ({
 
 export interface IProps {
     classes?:string;
-    placeholder:string;
+    placeholder?:string;
     control:Control<FieldValues, object> | undefined;
     name:string;
     type?:string;
+    isPadding?:boolean;
 }
 
-const BootstrapInput = ({ control, classes="", placeholder, name="", type="text" }:IProps):JSX.Element => (
+const BootstrapInput = ({ control, classes="", placeholder, name, type="text", isPadding=true }:IProps):JSX.Element => (
     <FormControl variant="standard" className={`w-full ${classes}`}>
-        <Controller
-            name={name}
-            control={control}
-            render={({ field: { onChange, value } } ) => (
-                <Input
-                    placeholder={placeholder}
-                    value={value}
-                    onChange={onChange}
-                    type={type}
-                />
-            )}
-        />
+        <StyleInput isPadding={isPadding}>
+            <Controller
+                name={name}
+                control={control}
+                render={({ field: { onChange, value } } ) => (
+                    <Input
+                        placeholder={placeholder}
+                        value={value}
+                        onChange={onChange}
+                        type={type}
+                        size="medium"
+                        className='w-full'
+                    />
+                )}
+            />
+        </StyleInput>
     </FormControl>
 );
 

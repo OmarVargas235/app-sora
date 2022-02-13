@@ -1,45 +1,63 @@
-import React from 'react';
+import React, { useContext } from 'react';
 
 import Typography from '@mui/material/Typography';
 
 import ButtonPage from '../../../layaut/Button';
 import SearchData from '../../../layaut/SearchData';
 import StickyHeadTable from '../../../layaut/table/Table';
+import TableBodyPage from './Rows';
+import { columns } from '../utils';
+import { UserContext } from '../ContextProvider';
+import { OPEN_MODAL_CREATEUSER } from '../types';
 
-const UserPage = () => (
-    <>
-        <Typography variant="h5" gutterBottom>
-            Usuarios
-        </Typography>
+const UserPage = ():JSX.Element => {
 
-        <div className='mt-4 flex justify-between flex-wrap mb-8'>
-            <span  className="flex mt-2 w-96">
-                <ButtonPage
-                    textBtn="Nuevo usuario"
-                    typeTheme=""
-                    isContained={false}
-                    isPrimary={false}
-                    typeSize="small"
-                    nameIcon="add"
-                />
+    const { dispatchUser }:any = useContext( UserContext );
 
-                <span className='mx-1'></span>
+    const handleClick = ():void => {
 
-                <ButtonPage
-                    textBtn="exportar a exel"
-                    typeTheme=""
-                    isContained={false}
-                    isPrimary={true}
-                    typeSize="small"
-                    nameIcon="exel"
-                />
-            </span>
+        dispatchUser({ type: OPEN_MODAL_CREATEUSER });
+    }
 
-            <SearchData />
-        </div>
+    return (
+        <>
+            <Typography variant="h5" gutterBottom>
+                Usuarios
+            </Typography>
 
-        <StickyHeadTable />
-    </>
-);
+            <div className='mt-4 flex justify-between flex-wrap mb-8'>
+                <span  className="flex mt-2 w-96">
+                    <ButtonPage
+                        textBtn="Nuevo usuario"
+                        typeTheme=""
+                        isContained={false}
+                        isPrimary={false}
+                        typeSize="small"
+                        nameIcon="add"
+                        handleClick={handleClick}
+                    />
+
+                    <span className='mx-1'></span>
+
+                    <ButtonPage
+                        textBtn="exportar a exel"
+                        typeTheme=""
+                        isContained={false}
+                        isPrimary={true}
+                        typeSize="small"
+                        nameIcon="exel"
+                    />
+                </span>
+
+                <SearchData />
+            </div>
+
+            <StickyHeadTable
+                columns={columns}
+                TableBodyPage={TableBodyPage}
+            />
+        </>
+    );
+}
 
 export default UserPage;

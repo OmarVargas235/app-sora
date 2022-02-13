@@ -1,10 +1,16 @@
 import React from 'react';
 
+import UserProvider from './ContextProvider';
+
 import UserPage from './components/UserPage';
+import CreateUser from './container/CreateUser';
 
-const User = () => {
+const User = ():JSX.Element => (
+    <UserProvider>
+        <UserPage />
 
-    return <UserPage />
-}
+        <CreateUser />
+    </UserProvider>
+)
 
 export default User;
