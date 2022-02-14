@@ -1,56 +1,42 @@
 import * as yup from 'yup';
 
-interface IColumn {
+export interface IColumn {
     id: 'userName' | 'name' | 'email' | 'area' | 'permits' | 'active' | 'actions';
     label: string;
     minWidth?: number;
-    align?: 'right';
-    // format?: (value: number) => string;
 }
 
-export const columns: readonly IColumn[] = [
+export const columns: IColumn[] = [
     { id: 'userName', label: 'Username', minWidth: 170 },
     {
         id: 'name',
         label: 'Nombre',
         minWidth: 170,
-        align: 'right',
-        // format: (value: number) => value.toLocaleString('en-US'),
     },
     {
         id: 'email',
         label: 'Email',
         minWidth: 170,
-        align: 'right',
-        // format: (value: number) => value.toLocaleString('en-US'),
     },
     {
         id: 'area',
         label: 'Area',
         minWidth: 170,
-        align: 'right',
-        // format: (value: number) => value.toFixed(2),
     },
     {
         id: 'permits',
         label: 'Permisos',
         minWidth: 170,
-        align: 'right',
-        // format: (value: number) => value.toFixed(2),
     },
     {
         id: 'active',
         label: 'Activo',
         minWidth: 170,
-        align: 'right',
-        // format: (value: number) => value.toFixed(2),
     },
     {
         id: 'actions',
         label: '',
         minWidth: 170,
-        align: 'right',
-        // format: (value: number) => value.toFixed(2),
     },
 ];
 

@@ -4,13 +4,19 @@ import TableCell from '@mui/material/TableCell';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 
-const TableHeadPage = ({ columns }:any):JSX.Element => (
+import { IColumn } from '../../main/users/utils';
+
+interface IProps {
+    columns: IColumn[];
+}
+
+const TableHeadPage = ({ columns }:IProps):JSX.Element => (
     <TableHead>
         <TableRow>
-            {columns.map((column:any) => (
+            {columns.map(column => (
                 <TableCell
                     key={column.id}
-                    align={column.align}
+                    align="left"
                     style={{ minWidth: column.minWidth }}
                 >
                     {column.label}

@@ -2,12 +2,19 @@ import React from 'react';
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
 import TableContainer from '@mui/material/TableContainer';
+import TableBody from '@mui/material/TableBody';
 // import TablePagination from '@mui/material/TablePagination';
 
 import TableHeadPage from './TableHeadPage';
+import { IColumn } from '../../main/users/utils';
 
-function StickyHeadTable({ columns, TableBodyPage }:any):JSX.Element {
+interface IProps {
+  columns:IColumn[];
+  Rows:React.ComponentType;
+}
 
+function StickyHeadTable({ columns, Rows }:IProps):JSX.Element {
+  
   // const [page, setPage] = React.useState(0);
   // const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
@@ -28,7 +35,9 @@ function StickyHeadTable({ columns, TableBodyPage }:any):JSX.Element {
             columns={columns}
           />
 
-          <TableBodyPage />
+          <TableBody>
+            <Rows />
+          </TableBody>
         </Table>
       </TableContainer>
 

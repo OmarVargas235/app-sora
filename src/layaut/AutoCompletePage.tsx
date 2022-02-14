@@ -4,8 +4,6 @@ import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 import { styled } from '@mui/material/styles';
 
-import BootstrapInput from './BootstrapInput';
-
 const top100Films = [
     { label: 'The Shawshank Redemption', year: 1994 },
     { label: 'The Godfather', year: 1972 },
@@ -21,9 +19,13 @@ const CssTextField = styled(TextField)({
         paddingTop: '0',
         paddingBottom: '0',
     },
-  });
+});
 
-const AutoCompletePage = ({ isPadding }:any):JSX.Element => (
+interface IProps {
+    isPadding:boolean;
+}
+
+const AutoCompletePage = ({ isPadding }:IProps):JSX.Element => (
     <Autocomplete
         disablePortal
         options={top100Films}

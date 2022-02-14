@@ -5,7 +5,7 @@ export const initState:IInitState = {
     openModal: false
 }
 
-export const reducer = (state=initState, { type, payload }:{type:string, payload:any}) => {
+export const reducer = (state=initState, { type, payload }:{type:string, payload:any}):IInitState => {
 
     switch (type) {
         

@@ -3,7 +3,7 @@ import { useReducer, createContext } from "react";
 import { reducer, initState } from './reducer';
 import { IProps, IInitState } from './interface';
 
-export interface UserContextInterface {
+interface UserContextInterface {
     stateUser:IInitState;
     dispatchUser:(action:{type:string, payload:any})=>void;
 }

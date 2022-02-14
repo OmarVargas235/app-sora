@@ -6,7 +6,7 @@ import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import SearchIcon from '@mui/icons-material/Search';
 
-const SearchData = ():JSX.Element => (
+const SearchDataTable = ():JSX.Element => (
     <Paper
         component="form"
         sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: 300 }}
@@ -27,4 +27,4 @@ const SearchData = ():JSX.Element => (
     </Paper>
 );
 
-export default SearchData;
+export default SearchDataTable;

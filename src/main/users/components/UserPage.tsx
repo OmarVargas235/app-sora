@@ -3,7 +3,7 @@ import React, { useContext } from 'react';
 import Typography from '@mui/material/Typography';
 
 import ButtonPage from '../../../layaut/Button';
-import SearchData from '../../../layaut/SearchData';
+import SearchDataTable from '../../../layaut/SearchDataTable';
 import StickyHeadTable from '../../../layaut/table/Table';
 import TableBodyPage from './Rows';
 import { columns } from '../utils';
@@ -14,10 +14,7 @@ const UserPage = ():JSX.Element => {
 
     const { dispatchUser }:any = useContext( UserContext );
 
-    const handleClick = ():void => {
-
-        dispatchUser({ type: OPEN_MODAL_CREATEUSER });
-    }
+    const handleClick = ():void => dispatchUser({ type: OPEN_MODAL_CREATEUSER });
 
     return (
         <>
@@ -49,12 +46,12 @@ const UserPage = ():JSX.Element => {
                     />
                 </span>
 
-                <SearchData />
+                <SearchDataTable />
             </div>
 
             <StickyHeadTable
                 columns={columns}
-                TableBodyPage={TableBodyPage}
+                Rows={TableBodyPage}
             />
         </>
     );
