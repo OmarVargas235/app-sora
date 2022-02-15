@@ -1,18 +1,18 @@
 import React, { useContext } from 'react';
 
 import Typography from '@mui/material/Typography';
-
 import ButtonPage from '../../../layaut/Button';
-import SearchDataTable from '../../../layaut/SearchDataTable';
 import StickyHeadTable from '../../../layaut/table/Table';
 import TableBodyPage from './Rows';
+import SearchDataTable from '../../../layaut/filterDataTable/SearchDataTable';
 import { columns } from '../utils';
 import { UserContext } from '../ContextProvider';
-import { OPEN_MODAL_CREATEUSER } from '../types';
+import { OPEN_MODAL_CREATEUSER, DATA_USERS } from '../types';
+import { serviceUser } from '../../../services/user';
 
 const UserPage = ():JSX.Element => {
 
-    const { dispatchUser }:any = useContext( UserContext );
+    const { stateUser:{ dataUsers }, dispatchUser }:any = useContext( UserContext );
 
     const handleClick = ():void => dispatchUser({ type: OPEN_MODAL_CREATEUSER });
 
@@ -45,13 +45,19 @@ const UserPage = ():JSX.Element => {
                         nameIcon="exel"
                     />
                 </span>
-
-                <SearchDataTable />
+                
+                <SearchDataTable
+                    service={serviceUser}
+                    typeService='getDataUser'
+                    dispatchUser={dispatchUser}
+                    TYPE={DATA_USERS}
+                />
             </div>
 
             <StickyHeadTable
                 columns={columns}
                 Rows={TableBodyPage}
+                data={dataUsers}
             />
         </>
     );

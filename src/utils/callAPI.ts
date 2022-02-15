@@ -3,18 +3,19 @@ import { showMessage } from "../redux/reducers/reducerSnack";
 import { setTokenURL } from "../redux/reducers/reducerUser";
 import { ICallAPI } from "./interface";
 
-export const callAPI = ({ service, typeService, data, dispatch, history }:ICallAPI):void => {
+export const callAPI = ({ service, typeService, data, dispatch, history, dispatchReducer, TYPE }:ICallAPI):void => {
 
     service[typeService](data)
         .then((resp:any) => {
-
-            dispatch( showMessage({
+            
+            !Array.isArray(resp) ? dispatch( showMessage({
                 time: 9000,
                 message: resp.message ? [resp.message] : [resp],
                 severity: "success",
-            }));
+            }))
+            : dispatchReducer({ type: TYPE, payload: resp });
 
-            history !== null && history.replace('/');
+            history && history.replace('/');
 
             resp.tokenURL && dispatch( setTokenURL(resp.tokenURL));
             dispatch( setDesactive() );

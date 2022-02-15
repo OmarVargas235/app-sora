@@ -8,4 +8,16 @@ export interface IProps {
 
 export interface IInitState {
     openModal:boolean;
+    dataUsers:object[];
+}
+
+export type TypesProps = {
+    active: boolean;
+    area: {id:number, name:string};
+    email: string;
+    idRol: number;
+    name: string;
+    rol: string;
+    userName: string;
+    _id: string;
 }

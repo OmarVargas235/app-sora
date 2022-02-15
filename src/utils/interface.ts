@@ -7,7 +7,9 @@ export interface ICallAPI {
     typeService:string;
     data:object;
     dispatch:Function;
-    history:{replace:Function}|null;
+    history?:{replace:Function}|null;
+    // dispatchReducer:(action:{type:string|undefined, payload:any})=>void;
+    TYPE?:string;
 }
 
 interface IProgram {

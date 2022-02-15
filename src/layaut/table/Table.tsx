@@ -1,19 +1,25 @@
 import React from 'react';
+
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
 import TableContainer from '@mui/material/TableContainer';
 import TableBody from '@mui/material/TableBody';
+import TableRow from '@mui/material/TableRow';
+import TableCell from '@mui/material/TableCell';
+import Icon from '@mui/material/Icon';
 // import TablePagination from '@mui/material/TablePagination';
 
 import TableHeadPage from './TableHeadPage';
 import { IColumn } from '../../main/users/utils';
+import { TypesProps } from '../../main/users/interface';
 
 interface IProps {
   columns:IColumn[];
-  Rows:React.ComponentType;
+  Rows:React.ComponentType<any>;
+  data:TypesProps[];
 }
 
-function StickyHeadTable({ columns, Rows }:IProps):JSX.Element {
+function StickyHeadTable({ columns, Rows, data }:IProps):JSX.Element {
   
   // const [page, setPage] = React.useState(0);
   // const [rowsPerPage, setRowsPerPage] = React.useState(10);
@@ -36,7 +42,21 @@ function StickyHeadTable({ columns, Rows }:IProps):JSX.Element {
           />
 
           <TableBody>
-            <Rows />
+            {
+              data.map(row => (
+                <TableRow hover role="checkbox" tabIndex={-1} key={row._id}>
+
+                  <Rows
+                    row={row}
+                  />
+
+                  <TableCell align="left">
+                    <Icon className="cursor-pointer">edit_icon</Icon>
+                    <Icon className="cursor-pointer ml-3">delete_icon</Icon>
+                  </TableCell>
+                </TableRow>
+              ))
+            }
           </TableBody>
         </Table>
       </TableContainer>
