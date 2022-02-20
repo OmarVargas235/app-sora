@@ -46,30 +46,42 @@ export type Inputs = {
     username: string;
 	name: string;
 	email: string;
-	area: string;
-	permits: string;
+	idArea: {id:string; label:string} | object;
+	idRol: {id:string; label:string} | object;
+	password: string;
 };
 
 export interface IDefaultsValues {
     username: string;
 	name: string;
 	email: string;
-	area: string;
-	permits: string;
+	idArea: {id:string; label:string} | object;
+	idRol: {id:string; label:string} | object;
+    password: string;
 }
 
 export const defaultValues:IDefaultsValues = {
 	username: '',
 	name: '',
 	email: '',
-	area: '',
-	permits: '',
+	idArea: {},
+	idRol: {},
+	password: '',
 };
 
 export const schema = yup.object().shape({
 	username: yup.string().required('El campo de userName es requerido'),
-	name: yup.string().required('El campo de NAME es requerido'),
+	name: yup.string().required('El campo de NOMBRE es requerido'),
 	email: yup.string().required('El campo de EMAIL es requerido'),
-	area: yup.string().required('El campo de AREA es requerido'),
-	permits: yup.string().required('El campo de PERMISOS es requerido'),
+	password: yup.string().required('El campo de PASSWORD es requerido'),
+    idArea: yup.object().shape({
+        id: yup.string().required('El AREA es requerido.'),
+    })
+    .nullable()
+    .required('El AREA es requerido.'),
+    idRol: yup.object().shape({
+        id: yup.string().required('El ROL es requerido.'),
+    })
+    .nullable()
+    .required('El ROL es requerido.'),
 });

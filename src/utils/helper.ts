@@ -1,17 +1,17 @@
 import { showMessage } from "../redux/reducers/reducerSnack";
-import { IMessageErrors } from "./interface";
 
-export const showMessageError = ({ errors, dispatch }:any):void => {
-
+export const showMessageError = ({ errors, dispatch }:{errors:object, dispatch:Function}):void => {
+    
     if (Object.keys(errors).length === 0) return;
 
-    const arrErrors:IMessageErrors[] = Object.values(errors);
-        
-    const messages:(string|undefined)[] = arrErrors.map((msg) => msg.message);
+    const newErros:string[] = Object.values(errors).map((error):string => {
+
+        return error.message || error.id.message;
+    });
 
     dispatch( showMessage({
         time: 3000,
-        message: messages,
+        message: newErros,
         severity: "error",
     }) );
 }

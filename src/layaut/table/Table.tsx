@@ -12,6 +12,7 @@ import Icon from '@mui/material/Icon';
 import TableHeadPage from './TableHeadPage';
 import { IColumn } from '../../main/users/utils';
 import { TypesProps } from '../../main/users/interface';
+import { gray } from '../../assets/css/colors';
 
 interface IProps {
   columns:IColumn[];
@@ -51,8 +52,8 @@ function StickyHeadTable({ columns, Rows, data }:IProps):JSX.Element {
                   />
 
                   <TableCell align="left">
-                    <Icon className="cursor-pointer">edit_icon</Icon>
-                    <Icon className="cursor-pointer ml-3">delete_icon</Icon>
+                    <Icon className="cursor-pointer" style={{color: gray}}>edit_icon</Icon>
+                    <Icon className="cursor-pointer ml-3" style={{color: gray}}>delete_icon</Icon>
                   </TableCell>
                 </TableRow>
               ))

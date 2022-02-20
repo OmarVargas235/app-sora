@@ -1,18 +1,11 @@
 import React from 'react';
+import { Controller } from "react-hook-form";
 
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 import { styled } from '@mui/material/styles';
 
-const top100Films = [
-    { label: 'The Shawshank Redemption', year: 1994 },
-    { label: 'The Godfather', year: 1972 },
-    { label: 'The Godfather: Part II', year: 1974 },
-    { label: 'The Dark Knight', year: 2008 },
-    { label: '12 Angry Men', year: 1957 },
-    { label: "Schindler's List", year: 1993 },
-    { label: 'Pulp Fiction', year: 1994 },
-];
+import { TypesAutocomplete } from '../utils/interface';
 
 const CssTextField = styled(TextField)({
      '& .MuiOutlinedInput-root': {
@@ -23,15 +16,30 @@ const CssTextField = styled(TextField)({
 
 interface IProps {
     isPadding:boolean;
+    data:TypesAutocomplete[];
+    control:any;
+    name:string;
 }
-
-const AutoCompletePage = ({ isPadding }:IProps):JSX.Element => (
-    <Autocomplete
-        disablePortal
-        options={top100Films}
-        sx={{ width: "100%", margin: '0', padding: '0' }}
-        renderInput={(params) => <CssTextField {...params} placeholder="seleccionar..." />}
-    />
+const AutoCompletePage = ({ isPadding, data, control, name }:IProps):JSX.Element => (
+    <Controller
+        name={name}
+        control={control}
+        render={({ field: { onChange, value } } ) => (
+            <Autocomplete
+                options={data}
+                sx={{ width: "100%", margin: '0', padding: '0' }}
+                value={value ? (value.label || null): value}
+                onChange={(e, value) => onChange(value === null ? value : value)}
+                isOptionEqualToValue={(option, value) => (option.label === value || value === '')}
+                renderInput={(params) => (
+                    <CssTextField
+                        {...params}
+                        placeholder="seleccionar..."
+                    />
+                )}
+            />
+        )}
+    />    
 );
 
-export default AutoCompletePage;
+export default React.memo(AutoCompletePage);

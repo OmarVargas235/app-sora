@@ -36,19 +36,18 @@ const style = {
 interface IProps {
     openModal:boolean;
     dispatch:(action:{type:string, payload?:any})=>void;
-    OPEN:string;
-    CLOSE:string;
+    closeModal:()=>void;
     handleSubmit:any;
     onSubmit:(model:any)=>void;
     children: ReactChild | ReactChild[] | ReactChildren | ReactChildren[];
     title:string;
 }
 
-const ModalForm = ({ openModal, dispatch, OPEN, CLOSE, handleSubmit, onSubmit, title, children }:IProps):JSX.Element => (
+const ModalForm = ({ openModal, dispatch, handleSubmit, onSubmit, title, children, closeModal }:IProps):JSX.Element => (
     <Modal
         keepMounted
         open={openModal}
-        onClose={() => dispatch({type: OPEN})}
+        onClose={closeModal}
         aria-labelledby="keep-mounted-modal-title"
         aria-describedby="keep-mounted-modal-description"
     >
@@ -60,7 +59,7 @@ const ModalForm = ({ openModal, dispatch, OPEN, CLOSE, handleSubmit, onSubmit, t
 
                 <Icon
                     className='cursor-pointer'
-                    onClick={() => dispatch({type: CLOSE})}
+                    onClick={closeModal}
                 >close_icon</Icon>
             </header>
 
@@ -76,11 +75,12 @@ const ModalForm = ({ openModal, dispatch, OPEN, CLOSE, handleSubmit, onSubmit, t
                         <ColorButton
                             variant="outlined"
                             className="mr-3"
+                            type='submit'
                         >Guardar</ColorButton>
 
                         <ColorButton
                             variant="outlined"
-                            onClick={() => dispatch({type: CLOSE})}
+                            onClick={closeModal}
                         >Cancelar</ColorButton>
                     </div>
                 </form>

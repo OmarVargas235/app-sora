@@ -47,7 +47,9 @@ class Auth {
                 } else reject(data.data);
 
             })
-            .catch(({response}) => {
+            .catch(({response:{data}}:any) => {
+                                
+                if (data) reject(data.data);
                 
                 reject("Ha ocurrido un problema");
             });

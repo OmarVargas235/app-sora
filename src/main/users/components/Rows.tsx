@@ -1,6 +1,5 @@
 import React from 'react';
 
-import TableRow from '@mui/material/TableRow';
 import TableCell from '@mui/material/TableCell';
 import { TypesProps } from '../interface';
 
@@ -25,15 +24,15 @@ const TableBodyPage = ({ row }:IPropsRows):JSX.Element => (
         </TableCell>
 
         <TableCell align={align}>
-            {row.area?.name || ""}
+            {row.area?.description || ""}
         </TableCell>
 
         <TableCell align={align}>
-            {row.rol}
+            {row.rol.name}
         </TableCell>
 
         <TableCell align={align}>
-            {row.active ? 'Activo' : 'Desactivado'}
+            {row.active ? 'Activo' : 'Inactivo'}
         </TableCell>
     </>
 );

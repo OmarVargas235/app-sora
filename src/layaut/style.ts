@@ -41,7 +41,7 @@ export const StyleBlockUI = styled.div`
     background-color: rgba(254, 254, 254, .4);
     min-height: 100vh;
     position: fixed;
-    z-index: 1;
+    z-index: 2000;
     top: 0;
     width: 100%;
 `;

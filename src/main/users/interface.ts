@@ -7,17 +7,29 @@ export interface IProps {
 }
 
 export interface IInitState {
-    openModal:boolean;
-    dataUsers:object[];
+    openModal: boolean;
+    dataUsers: object[];
+    dataAreas: object[],
+    dataRoles: object[],
+    updateUser: boolean;
 }
 
 export type TypesProps = {
     active: boolean;
-    area: {id:number, name:string};
+    area: {_id:string, description:string};
     email: string;
     idRol: number;
     name: string;
-    rol: string;
+    rol: {_id:string, name:string};
     userName: string;
     _id: string;
+}
+
+export type TypeCreateUser = {
+    email:string;
+    idArea:string;
+    idRol:string;
+    name:string;
+    username:string;
+    password:string;
 }
