@@ -1,4 +1,4 @@
-import { OPEN_MODAL_CREATEUSER, CLOSE_MODAL_CREATEUSER, DATA_USERS, DATA_ROLES, DATA_AREAS, UPDATE_USER } from './types';
+import { OPEN_MODAL_CREATEUSER, CLOSE_MODAL_CREATEUSER, DATA_USERS, DATA_ROLES, DATA_AREAS, UPDATE_USER, DATA_EDIT } from './types';
 import { IInitState } from './interface';
 
 export const initState:IInitState = {
@@ -7,6 +7,7 @@ export const initState:IInitState = {
     dataAreas: [],
     dataRoles: [],
     updateUser: false,
+    dataEdit: {},
 }
 
 export const reducer = (state=initState, { type, payload }:{type:string, payload:any}):IInitState => {
@@ -42,11 +43,17 @@ export const reducer = (state=initState, { type, payload }:{type:string, payload
                 ...state,
                 dataRoles: payload,
             };
-
+        
         case UPDATE_USER:
             return {
                 ...state,
                 updateUser: payload,
+            };
+
+        case DATA_EDIT:
+            return {
+                ...state,
+                dataEdit: payload,
             };
 
         default:

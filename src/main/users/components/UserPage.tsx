@@ -7,14 +7,12 @@ import TableBodyPage from './Rows';
 import SearchDataTable from '../../../layaut/filterDataTable/SearchDataTable';
 import { columns } from '../utils';
 import { UserContext } from '../ContextProvider';
-import { OPEN_MODAL_CREATEUSER, DATA_USERS } from '../types';
+import { DATA_USERS } from '../types';
 import { serviceUser } from '../../../services/user';
 
 const UserPage = ():JSX.Element => {
 
-    const { stateUser:{ dataUsers }, dispatchUser }:any = useContext( UserContext );
-
-    const handleClick = ():void => dispatchUser({ type: OPEN_MODAL_CREATEUSER });
+    const { stateUser:{ dataUsers }, dispatchUser, editUser, openModal }:any = useContext( UserContext );
 
     return (
         <>
@@ -31,7 +29,7 @@ const UserPage = ():JSX.Element => {
                         isPrimary={false}
                         typeSize="small"
                         nameIcon="add"
-                        handleClick={handleClick}
+                        handleClick={openModal}
                     />
 
                     <span className='mx-1'></span>
@@ -58,6 +56,7 @@ const UserPage = ():JSX.Element => {
                 columns={columns}
                 Rows={TableBodyPage}
                 data={dataUsers}
+                handleEdit={editUser}
             />
         </>
     );

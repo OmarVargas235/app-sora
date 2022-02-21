@@ -11,7 +11,7 @@ import { showMessageError } from '../../../utils/helper';
 import { serviceUser } from '../../../services/user';
 import { callAPI } from '../../../utils/callAPI';
 import { setActive } from '../../../redux/reducers/reducerBlockUI';
-import { CLOSE_MODAL_CREATEUSER } from '../types';
+import { CLOSE_MODAL_CREATEUSER, DATA_EDIT } from '../types';
 
 const CreateUser = ():JSX.Element => {
 
@@ -22,12 +22,37 @@ const CreateUser = ():JSX.Element => {
         resolver: yupResolver(schema),
     });
 
-    const { stateUser:{ openModal, dataAreas, dataRoles }, dispatchUser }:any = useContext( UserContext );
-
+    const { stateUser:{ openModal, dataAreas, dataRoles, dataEdit }, dispatchUser }:any = useContext( UserContext );
+    
     const [areas, setAreas] = useState<TypesAutocomplete[]>([]);
     const [roles, setRoles] = useState<TypesAutocomplete[]>([]);
 
     useEffect(() => showMessageError({ errors, dispatch }), [errors, dispatch]);
+
+    // Pre-cargando los datos del formulario
+    useEffect(() => {
+        
+        if ( Object.keys(dataEdit).length === 0 ) return;
+
+        const dict:{[key:string]:string} = {
+            idArea: 'area',
+            name: 'name',
+            email: 'email',
+            idRol: 'rol',
+            username: 'userName',
+        };
+
+        ["username", "name", "email", "idArea", "idRol"].forEach((value:any) => {
+
+            const text:string = dict[value];
+
+            typeof dataEdit[text] === 'string'
+            ? setValue(value, dataEdit[text])
+            : setValue(value, { label: dataEdit[text].name || dataEdit[text].description, id: dataEdit[text]._id });
+        });
+
+    }, [dataEdit, setValue]);
+    
     
     // Setear la estrucutra de los objetos de area --> {label: description, id: _id}
     useEffect(() => {
@@ -51,6 +76,7 @@ const CreateUser = ():JSX.Element => {
 
         dispatchUser({ type: CLOSE_MODAL_CREATEUSER });
         clearErrors();
+        dispatchUser({ type: DATA_EDIT, payload: {} });
         ["username", "name", "email", "idArea", "idRol", "password"].forEach((value:any) => setValue(value, "") );
     }
     

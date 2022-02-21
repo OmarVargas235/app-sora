@@ -3,13 +3,16 @@ import { useDispatch } from "react-redux";
 
 import { reducer, initState } from './reducer';
 import { IProps, IInitState } from './interface';
-import { DATA_USERS, DATA_AREAS, DATA_ROLES } from './types';
+import { DATA_USERS, DATA_AREAS, DATA_ROLES, OPEN_MODAL_CREATEUSER, DATA_EDIT } from './types';
 import { serviceUser } from '../../services/user';
 import { callAPI } from "../../utils/callAPI";
+import { TypesProps } from './interface';
 
 interface UserContextInterface {
     stateUser:IInitState;
     dispatchUser:(action:{type:string, payload:any})=>void;
+    editUser:(data:TypesProps)=>void;
+    openModal:()=>void;
 }
 
 export const UserContext = createContext<UserContextInterface | null>(null);
@@ -32,10 +35,23 @@ const UserProvider = ({ children }:IProps):JSX.Element => {
 
     }, [dispatch, updateUser]);
 
+    const openModal = ():void => dispatchUser({ type: OPEN_MODAL_CREATEUSER, payload: null });
+
+    const editUser = (data:TypesProps):void => {
+
+        const { active, _id, ...dataUser } = data;
+
+        openModal();
+
+        dispatchUser({ type: DATA_EDIT, payload: dataUser });
+    }
+
     return (
         <UserContext.Provider value={{
             stateUser,
             dispatchUser,
+            editUser,
+            openModal,
         }}>
             { children }
         </UserContext.Provider>

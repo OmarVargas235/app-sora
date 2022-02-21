@@ -12,6 +12,7 @@ export interface IInitState {
     dataAreas: object[],
     dataRoles: object[],
     updateUser: boolean;
+    dataEdit: object;
 }
 
 export type TypesProps = {
