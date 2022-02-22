@@ -39,11 +39,9 @@ const UserProvider = ({ children }:IProps):JSX.Element => {
 
     const editUser = (data:TypesProps):void => {
 
-        const { active, _id, ...dataUser } = data;
-
         openModal();
 
-        dispatchUser({ type: DATA_EDIT, payload: dataUser });
+        dispatchUser({ type: DATA_EDIT, payload: data });
     }
 
     return (

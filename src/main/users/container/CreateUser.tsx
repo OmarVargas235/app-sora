@@ -11,7 +11,7 @@ import { showMessageError } from '../../../utils/helper';
 import { serviceUser } from '../../../services/user';
 import { callAPI } from '../../../utils/callAPI';
 import { setActive } from '../../../redux/reducers/reducerBlockUI';
-import { CLOSE_MODAL_CREATEUSER, DATA_EDIT } from '../types';
+import { CLOSE_MODAL_CREATEUSER, DATA_EDIT, UPDATE_USER } from '../types';
 
 const CreateUser = ():JSX.Element => {
 
@@ -22,7 +22,7 @@ const CreateUser = ():JSX.Element => {
         resolver: yupResolver(schema),
     });
 
-    const { stateUser:{ openModal, dataAreas, dataRoles, dataEdit }, dispatchUser }:any = useContext( UserContext );
+    const { stateUser:{ openModal, dataAreas, dataRoles, dataEdit, updateUser }, dispatchUser }:any = useContext( UserContext );
     
     const [areas, setAreas] = useState<TypesAutocomplete[]>([]);
     const [roles, setRoles] = useState<TypesAutocomplete[]>([]);
@@ -80,14 +80,17 @@ const CreateUser = ():JSX.Element => {
         ["username", "name", "email", "idArea", "idRol", "password"].forEach((value:any) => setValue(value, "") );
     }
     
-    const createUser = (model:Inputs):void => {
+    const createAndEditUser = (model:Inputs):void => {
 
+        const isEdit:boolean = Object.keys(dataEdit).length > 0;
         const { idRol, idArea }:any = model;
-
+        const typeService = isEdit ? 'editUser' : 'registerUser';
+        
         model.idRol = idRol.id;
         model.idArea = idArea.id;
+        model.id = isEdit ? dataEdit['_id'] : null;
         
-        callAPI({ service: serviceUser, typeService: 'registerUser', data: model, dispatch, dispatchReducer: dispatchUser, closeModal });
+        callAPI({ service: serviceUser, typeService, data: model, dispatch, dispatchReducer: dispatchUser, closeModal, update: updateUser, UPDATE: UPDATE_USER });
 
         dispatch( setActive() );
     }
@@ -95,7 +98,7 @@ const CreateUser = ():JSX.Element => {
     return <CreateUserPage
         openModal={openModal}
         dispatchUser={dispatchUser}
-        createUser={createUser}
+        createAndEditUser={createAndEditUser}
         handleSubmit={handleSubmit}
         control={control}
         dataAreas={areas}

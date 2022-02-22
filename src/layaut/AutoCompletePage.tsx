@@ -15,12 +15,11 @@ const CssTextField = styled(TextField)({
 });
 
 interface IProps {
-    isPadding:boolean;
     data:TypesAutocomplete[];
     control:any;
     name:string;
 }
-const AutoCompletePage = ({ isPadding, data, control, name }:IProps):JSX.Element => (
+const AutoCompletePage = ({ data, control, name }:IProps):JSX.Element => (
     <Controller
         name={name}
         control={control}

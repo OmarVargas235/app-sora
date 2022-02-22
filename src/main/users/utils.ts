@@ -49,6 +49,7 @@ export type Inputs = {
 	idArea: {id:string; label:string} | object;
 	idRol: {id:string; label:string} | object;
 	password: string;
+    id:string;
 };
 
 export interface IDefaultsValues {
@@ -58,6 +59,7 @@ export interface IDefaultsValues {
 	idArea: {id:string; label:string} | object;
 	idRol: {id:string; label:string} | object;
     password: string;
+    id:string;
 }
 
 export const defaultValues:IDefaultsValues = {
@@ -67,6 +69,7 @@ export const defaultValues:IDefaultsValues = {
 	idArea: {},
 	idRol: {},
 	password: '',
+    id: '',
 };
 
 export const schema = yup.object().shape({

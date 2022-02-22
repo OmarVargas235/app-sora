@@ -49,7 +49,7 @@ class Auth {
             })
             .catch(({response:{data}}:any) => {
                                 
-                if (data) reject(data.data);
+                if (data.data) return reject(data.data);
                 
                 reject("Ha ocurrido un problema");
             });

@@ -7,6 +7,8 @@ export interface ICallAPI {
     // dispatchReducer:(action:{type:string|undefined, payload:any})=>void;
     TYPE?:string;
     closeModal?:()=>void;
+    update?:boolean;
+    UPDATE?:string;
 }
 
 interface IProgram {

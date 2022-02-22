@@ -92,6 +92,35 @@ class User {
                 });
         });
     }
+
+    public editUser({email, idArea, idRol, name, username, password, id}:TypeCreateUser):Promise<void> {
+
+        return new Promise((resolve, reject) => {
+
+            axios
+                .put('/config/update-user', {
+                    userName: username,
+                    name,
+                    email,
+                    password,
+                    idRol,
+                    idArea,
+                    id,
+                })
+                .then(({data}) => {
+
+                    !data.error
+                    ? resolve(data.data)
+                    : reject(data.data);
+                })
+                .catch(({response:{data} }) => {
+
+                    if (data) return reject(data);
+
+                    reject("Ha ocurrido un error");
+                });
+        });
+    }
 }
 
 export const serviceUser = new User();

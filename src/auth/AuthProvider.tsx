@@ -92,7 +92,7 @@ function AuthProvider({ children }:IProps):JSX.Element {
                 dispatch( setDesactive() );
             })
             .catch(err => {
-
+                
                 const isArray = Array.isArray(err);
                 
                 dispatch( showMessage({

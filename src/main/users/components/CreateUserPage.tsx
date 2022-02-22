@@ -11,7 +11,7 @@ import { TypesAutocomplete } from '../../../utils/interface';
 interface IProps {
     openModal:boolean;
     dispatchUser:(action:{type:string, payload?:any})=>void;
-    createUser:(model:Inputs)=>void;
+    createAndEditUser:(model:Inputs)=>void;
     handleSubmit:any;
     control:any;
     dataAreas:TypesAutocomplete[];
@@ -19,12 +19,12 @@ interface IProps {
     closeModal:()=>void;
 }
 
-const CreateUserPage = ({ openModal, dispatchUser, createUser, handleSubmit, control, dataAreas, dataRoles, closeModal }:IProps):JSX.Element => (
+const CreateUserPage = ({ openModal, dispatchUser, createAndEditUser, handleSubmit, control, dataAreas, dataRoles, closeModal }:IProps):JSX.Element => (
     <ModalForm
         openModal={openModal}
         dispatch={dispatchUser}
         handleSubmit={handleSubmit}
-        onSubmit={createUser}
+        onSubmit={createAndEditUser}
         title="Usuarios"
         closeModal={closeModal}
     >
@@ -94,7 +94,6 @@ const CreateUserPage = ({ openModal, dispatchUser, createUser, handleSubmit, con
             <Grid item xs={9}>
                 <AutoCompletePage
                     data={dataAreas}
-                    isPadding={false}
                     name="idArea"
                     control={control}
                 />
@@ -109,7 +108,6 @@ const CreateUserPage = ({ openModal, dispatchUser, createUser, handleSubmit, con
             <Grid item xs={9}>
                 <AutoCompletePage
                     data={dataRoles}
-                    isPadding={false}
                     name="idRol"
                     control={control}
                 />

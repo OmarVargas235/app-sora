@@ -3,7 +3,8 @@ import { showMessage } from "../redux/reducers/reducerSnack";
 import { setTokenURL } from "../redux/reducers/reducerUser";
 import { ICallAPI } from "./interface";
 
-export const callAPI = ({ service, typeService, data, dispatch, history, dispatchReducer, TYPE, closeModal }:ICallAPI):void => {
+// dispatchReducer = dispatch de cada modulo (no es el dispatch de redux)
+export const callAPI = ({ service, typeService, data, dispatch, history, dispatchReducer, TYPE, closeModal, update, UPDATE }:ICallAPI):void => {
     
     service[typeService](data)
         .then((resp:any) => {
@@ -21,6 +22,8 @@ export const callAPI = ({ service, typeService, data, dispatch, history, dispatc
             dispatch( setDesactive() );
 
             closeModal && closeModal();
+            
+            (update !== undefined && UPDATE !== undefined) && dispatchReducer({ type: UPDATE, payload: !update });
         })
         .catch((err:any) => {
 

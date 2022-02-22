@@ -33,4 +33,5 @@ export type TypeCreateUser = {
     name:string;
     username:string;
     password:string;
+    id:string;
 }
