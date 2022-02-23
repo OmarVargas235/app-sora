@@ -25,6 +25,7 @@ const LoginPage = ({ control, handleSubmit, signIn }:IProps):JSX.Element => (
             classes="mb-2"
             placeholder='Usuario'
             name="email"
+            type="text"
         />
 
         <BootstrapInput

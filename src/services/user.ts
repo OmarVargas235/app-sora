@@ -121,6 +121,27 @@ class User {
                 });
         });
     }
+
+    public deleteUser({ id }:{id:string}):Promise<void> {
+        
+        return new Promise((resolve, reject) => {
+
+            axios
+                .delete('/config/delete-user/'+id)
+                .then(({data}) => {
+
+                    !data.error
+                    ? resolve(data.data)
+                    : reject(data.data);
+                })
+                .catch(({response:{data} }) => {
+
+                    if (data) return reject(data);
+
+                    reject("Ha ocurrido un error");
+                });
+        });
+    }
 }
 
 export const serviceUser = new User();

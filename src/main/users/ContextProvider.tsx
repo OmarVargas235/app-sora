@@ -3,16 +3,18 @@ import { useDispatch } from "react-redux";
 
 import { reducer, initState } from './reducer';
 import { IProps, IInitState } from './interface';
-import { DATA_USERS, DATA_AREAS, DATA_ROLES, OPEN_MODAL_CREATEUSER, DATA_EDIT } from './types';
+import { DATA_USERS, DATA_AREAS, DATA_ROLES, OPEN_MODAL_CREATEUSER, DATA_EDIT, UPDATE_USER } from './types';
 import { serviceUser } from '../../services/user';
 import { callAPI } from "../../utils/callAPI";
 import { TypesProps } from './interface';
+import { setActive } from "../../redux/reducers/reducerBlockUI";
 
 interface UserContextInterface {
     stateUser:IInitState;
     dispatchUser:(action:{type:string, payload:any})=>void;
     editUser:(data:TypesProps)=>void;
     openModal:()=>void;
+    deleteUser:(id:string)=>void;
 }
 
 export const UserContext = createContext<UserContextInterface | null>(null);
@@ -44,12 +46,20 @@ const UserProvider = ({ children }:IProps):JSX.Element => {
         dispatchUser({ type: DATA_EDIT, payload: data });
     }
 
+    const deleteUser = (id:string):void => {
+
+        callAPI({ service: serviceUser, typeService: 'deleteUser', data: {id}, dispatch, dispatchReducer: dispatchUser, update: updateUser, UPDATE: UPDATE_USER });
+
+        dispatch( setActive() );
+    }
+
     return (
         <UserContext.Provider value={{
             stateUser,
             dispatchUser,
             editUser,
             openModal,
+            deleteUser,
         }}>
             { children }
         </UserContext.Provider>

@@ -19,9 +19,10 @@ interface IProps {
   Rows:React.ComponentType<any>;
   data:TypesProps[];
   handleEdit:(data:object)=>void;
+  handleDelete:(data:string)=>void;
 }
 
-function StickyHeadTable({ columns, Rows, data, handleEdit }:IProps):JSX.Element {
+function StickyHeadTable({ columns, Rows, data, handleEdit, handleDelete }:IProps):JSX.Element {
   
   // const [page, setPage] = React.useState(0);
   // const [rowsPerPage, setRowsPerPage] = React.useState(10);
@@ -58,7 +59,12 @@ function StickyHeadTable({ columns, Rows, data, handleEdit }:IProps):JSX.Element
                       style={{color: gray}}
                       onClick={() => handleEdit(row)}
                     >edit_icon</Icon>
-                    <Icon className="cursor-pointer ml-3" style={{color: gray}}>delete_icon</Icon>
+
+                    <Icon
+                      className="cursor-pointer ml-3"
+                      style={{color: gray}}
+                      onClick={() => handleDelete(row._id)}
+                    >delete_icon</Icon>
                   </TableCell>
                 </TableRow>
               ))
