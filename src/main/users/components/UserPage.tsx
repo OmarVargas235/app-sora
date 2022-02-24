@@ -12,7 +12,7 @@ import { serviceUser } from '../../../services/user';
 
 const UserPage = ():JSX.Element => {
 
-    const { stateUser:{ dataUsers }, dispatchUser, editUser, openModal, deleteUser }:any = useContext( UserContext );
+    const { stateUser:{ dataUsers }, dispatchUser, editUser, openModal, deleteUser }:any = useContext( UserContext);
 
     return (
         <>
@@ -41,6 +41,7 @@ const UserPage = ():JSX.Element => {
                         isPrimary={true}
                         typeSize="small"
                         nameIcon="exel"
+                        queryExcel='http://localhost:5000/api/config/excel'
                     />
                 </span>
                 

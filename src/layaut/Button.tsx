@@ -36,24 +36,36 @@ export interface IProps {
   typeSize?:size;
   nameIcon?:string;
   handleClick?:()=>void;
+  queryExcel?:string;
 }
 
-const ButtonPage = ({ textBtn, typeTheme="grayTheme", isContained=true, isPrimary=true, typeSize="large", nameIcon="", handleClick=()=>{} }:IProps):JSX.Element => (
+const ButtonPage = ({ textBtn, typeTheme="grayTheme", isContained=true, isPrimary=true, typeSize="large", nameIcon="", handleClick=()=>{}, queryExcel="" }:IProps):JSX.Element => (
   <ThemeProvider theme={typeTheme === "grayTheme" ? grayTheme : theme}>
-      <Button
-          onClick={handleClick}
-          variant={isContained ? "contained" : "outlined"}
-          type="submit"
-          className='btn'
-          fullWidth
-          size={typeSize}
-          color={isPrimary ? "primary" : "secondary"}
-          startIcon={
-              nameIcon.length > 0
-              ? (isPrimary ? <Exel /> : <Icon>{nameIcon}</Icon>)
-              : null
-          }
-      >{textBtn}</Button>
+      {
+        queryExcel.length === 0
+        ? <Button
+            onClick={handleClick}
+            variant={isContained ? "contained" : "outlined"}
+            type="submit"
+            className='btn'
+            fullWidth
+            size={typeSize}
+            color={isPrimary ? "primary" : "secondary"}
+            startIcon={<Icon>{nameIcon}</Icon> }
+        >{textBtn}</Button>
+        : <Button
+            onClick={handleClick}
+            variant={isContained ? "contained" : "outlined"}
+            type="submit"
+            className='btn'
+            href={queryExcel}
+            target="_blank"
+            fullWidth
+            size={typeSize}
+            color={isPrimary ? "primary" : "secondary"}
+            startIcon={<Exel />}
+        >{textBtn}</Button>
+      }
   </ThemeProvider>
 );
 
