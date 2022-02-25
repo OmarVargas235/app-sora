@@ -12,7 +12,7 @@ import { serviceUser } from '../../../services/user';
 
 const UserPage = ():JSX.Element => {
 
-    const { stateUser:{ dataUsers }, dispatchUser, editUser, openModal, deleteUser }:any = useContext( UserContext);
+    const { stateUser:{ dataUsers }, dispatchUser, editUser, openModal, openModalDelete }:any = useContext( UserContext);
 
     return (
         <>
@@ -58,7 +58,7 @@ const UserPage = ():JSX.Element => {
                 Rows={TableBodyPage}
                 data={dataUsers}
                 handleEdit={editUser}
-                handleDelete={deleteUser}
+                handleDelete={openModalDelete}
             />
         </>
     );
