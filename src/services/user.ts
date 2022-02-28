@@ -4,9 +4,9 @@ import { TypeCreateUser } from "../main/users/interface";
 
 class User {
 
-    public getDataUser({text}:{text:string}):Promise<void> {
-
-        const query:string = `quantity=${10}&data=${text || ""}`;
+    public getDataUser({text, limit=10}:{text:string, limit:number}):Promise<void> {
+        
+        const query:string = `limit=${limit}&data=${text || ""}`;
 
         return new Promise((resolve, reject) => {
 

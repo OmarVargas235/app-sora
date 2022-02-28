@@ -9,6 +9,7 @@ export interface ICallAPI {
     closeModal?:()=>void;
     update?:boolean;
     UPDATE?:string;
+    TYPE_LOADING?:string;
 }
 
 interface IProgram {

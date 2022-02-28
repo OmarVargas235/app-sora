@@ -5,3 +5,4 @@ export const DATA_AREAS:string = 'DATA_AREAS';
 export const DATA_ROLES:string = 'DATA_ROLES';
 export const DATA_EDIT:string = 'DATA_EDIT';
 export const UPDATE_USER:string = 'UPDATE_USER';
+export const LOADING_DATA_TABLE:string = 'LOADING_DATA_TABLE';

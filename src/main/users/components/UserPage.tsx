@@ -1,18 +1,27 @@
 import React, { useContext } from 'react';
+import { useDispatch } from 'react-redux';
 
 import Typography from '@mui/material/Typography';
 import ButtonPage from '../../../layaut/Button';
 import StickyHeadTable from '../../../layaut/table/Table';
-import TableBodyPage from './Rows';
 import SearchDataTable from '../../../layaut/filterDataTable/SearchDataTable';
 import { columns } from '../utils';
 import { UserContext } from '../ContextProvider';
-import { DATA_USERS } from '../types';
+import { DATA_USERS, LOADING_DATA_TABLE } from '../types';
 import { serviceUser } from '../../../services/user';
+import TableBodyPage from './Rows';
+import { callAPI } from '../../../utils/callAPI';
 
 const UserPage = ():JSX.Element => {
 
-    const { stateUser:{ dataUsers }, dispatchUser, editUser, openModal, openModalDelete }:any = useContext( UserContext);
+    const dispatch = useDispatch();
+
+    const { stateUser:{ dataUsers, loadingDataTable }, dispatchUser, editUser, openModal, openModalDelete }:any = useContext( UserContext);
+
+    const getUsers = (limit:number):void => {
+
+        callAPI({ service: serviceUser, typeService: 'getDataUser', data: {limit}, dispatch, dispatchReducer: dispatchUser, TYPE: DATA_USERS, TYPE_LOADING: LOADING_DATA_TABLE });
+    }
 
     return (
         <>
@@ -48,8 +57,9 @@ const UserPage = ():JSX.Element => {
                 <SearchDataTable
                     service={serviceUser}
                     typeService='getDataUser'
-                    dispatchUser={dispatchUser}
+                    dispatch={dispatchUser}
                     TYPE={DATA_USERS}
+                    LOADING_DATA_TABLE={LOADING_DATA_TABLE}
                 />
             </div>
 
@@ -59,6 +69,8 @@ const UserPage = ():JSX.Element => {
                 data={dataUsers}
                 handleEdit={editUser}
                 handleDelete={openModalDelete}
+                loadingDataTable={loadingDataTable}
+                getUsers={getUsers}
             />
         </>
     );

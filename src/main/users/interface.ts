@@ -13,6 +13,7 @@ export interface IInitState {
     dataRoles: object[],
     updateUser: boolean;
     dataEdit: object;
+    loadingDataTable: boolean;
 }
 
 export type TypesProps = {

@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { reducer, initState } from './reducer';
 import { IProps, IInitState } from './interface';
-import { DATA_USERS, DATA_AREAS, DATA_ROLES, OPEN_MODAL_CREATEUSER, DATA_EDIT, UPDATE_USER } from './types';
+import { DATA_AREAS, DATA_ROLES, OPEN_MODAL_CREATEUSER, DATA_EDIT, UPDATE_USER, LOADING_DATA_TABLE } from './types';
 import { serviceUser } from '../../services/user';
 import { callAPI } from "../../utils/callAPI";
 import { TypesProps } from './interface';
@@ -16,7 +16,6 @@ interface UserContextInterface {
     dispatchUser:(action:{type:string, payload:any})=>void;
     editUser:(data:TypesProps)=>void;
     openModal:()=>void;
-    // deleteUser:(id:string)=>void;
     openModalDelete:(id:string)=>void;
 }
 
@@ -32,12 +31,12 @@ const UserProvider = ({ children }:IProps):JSX.Element => {
     const { updateUser } = stateUser;
 
     const [idDelete, setIdDelete] = useState('');
-    
+
     // Cargar data por defecto (data user, data roles, data areas)
     useEffect(() => {
-        
-        callAPI({ service: serviceUser, typeService: 'getDataUser', data: {}, dispatch, dispatchReducer: dispatchUser, TYPE: DATA_USERS });
 
+        dispatchUser({ type: LOADING_DATA_TABLE, payload: true });
+        
         callAPI({ service: serviceUser, typeService: 'getAreas', data: {}, dispatch, dispatchReducer: dispatchUser, TYPE: DATA_AREAS });
 
         callAPI({ service: serviceUser, typeService: 'getRoles', data: {}, dispatch, dispatchReducer: dispatchUser, TYPE: DATA_ROLES });
@@ -55,13 +54,6 @@ const UserProvider = ({ children }:IProps):JSX.Element => {
 
     const openModal = ():void => dispatchUser({ type: OPEN_MODAL_CREATEUSER, payload: null });
 
-    const editUser = (data:TypesProps):void => {
-
-        openModal();
-
-        dispatchUser({ type: DATA_EDIT, payload: data });
-    }
-
     const deleteUser = ():void => {
 
         callAPI({ service: serviceUser, typeService: 'deleteUser', data: {id: idDelete}, dispatch, dispatchReducer: dispatchUser, update: updateUser, UPDATE: UPDATE_USER });
@@ -69,6 +61,13 @@ const UserProvider = ({ children }:IProps):JSX.Element => {
         dispatch( setActive() );
         setIdDelete('');
         dispatch( setNo() );
+    }
+
+    const editUser = (data:TypesProps):void => {
+
+        openModal();
+
+        dispatchUser({ type: DATA_EDIT, payload: data });
     }
 
     const openModalDelete = (id:string):void => {

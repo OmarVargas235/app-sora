@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, useEffect, useState, useCallback, useLayoutEffect } from 'react';
 
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
@@ -7,83 +7,123 @@ import TableBody from '@mui/material/TableBody';
 import TableRow from '@mui/material/TableRow';
 import TableCell from '@mui/material/TableCell';
 import Icon from '@mui/material/Icon';
-// import TablePagination from '@mui/material/TablePagination';
 
 import TableHeadPage from './TableHeadPage';
 import { IColumn } from '../../main/users/utils';
 import { TypesProps } from '../../main/users/interface';
 import { gray } from '../../assets/css/colors';
+import SkeletonLoading from '../SkeletonLoading';
+import { useResize } from '../../customHooks/useResize';
 
 interface IProps {
-  columns:IColumn[];
-  Rows:React.ComponentType<any>;
-  data:TypesProps[];
-  handleEdit:(data:object)=>void;
-  handleDelete:(data:string)=>void;
+    columns:IColumn[];
+    Rows:React.ComponentType<any>;
+    data:TypesProps[];
+    handleEdit:(data:object)=>void;
+    handleDelete:(data:string)=>void;
+    loadingDataTable:boolean;
+    getUsers:(limit:number)=>void;
 }
 
-function StickyHeadTable({ columns, Rows, data, handleEdit, handleDelete }:IProps):JSX.Element {
-  
-  // const [page, setPage] = React.useState(0);
-  // const [rowsPerPage, setRowsPerPage] = React.useState(10);
+function StickyHeadTable({ columns, Rows, data, handleEdit, handleDelete, loadingDataTable, getUsers }:IProps):JSX.Element {
 
-  // const handleChangePage = (event: unknown, newPage: number) => {
-  //   setPage(newPage);
-  // };
+    const refPaper = useRef<HTMLDivElement>(null);
+    const observer = useRef<any>(null);
+    
+    const [widthContainerTable, setWidthContainerTable] = useState<number|null>(null);
+    const [limit, setLimit] = useState<number>(10);
 
-  // const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
-  //   setRowsPerPage(+event.target.value);
-  //   setPage(0);
-  // };
+    const [size] = useResize();
 
-  return (
-    <Paper sx={{ width: '100%', overflow: 'hidden' }}>
-      <TableContainer sx={{ maxHeight: 440 }}>
-        <Table stickyHeader aria-label="sticky table">
-          <TableHeadPage
-            columns={columns}
-          />
+    useEffect(() => {
 
-          <TableBody>
-            {
-              data.map(row => (
-                <TableRow hover role="checkbox" tabIndex={-1} key={row._id}>
+        if (!refPaper.current) return;
 
-                  <Rows
-                    row={row}
-                  />
+        const { clientWidth } = refPaper.current;
 
-                  <TableCell align="left">
-                    <Icon
-                      className="cursor-pointer"
-                      style={{color: gray}}
-                      onClick={() => handleEdit(row)}
-                    >edit_icon</Icon>
+        typeof clientWidth === 'number' && setWidthContainerTable(clientWidth);
 
-                    <Icon
-                      className="cursor-pointer ml-3"
-                      style={{color: gray}}
-                      onClick={() => handleDelete(row._id)}
-                    >delete_icon</Icon>
-                  </TableCell>
-                </TableRow>
-              ))
-            }
-          </TableBody>
-        </Table>
-      </TableContainer>
+    }, [refPaper, size]);
+    
+    useLayoutEffect(() => getUsers(limit), [limit]);
 
-      {/* <TablePagination
-        rowsPerPageOptions={[10, 25, 100]}
-        component="div"
-        count={rows.length}
-        rowsPerPage={rowsPerPage}
-        page={page}
-        onPageChange={handleChangePage}
-        onRowsPerPageChange={handleChangeRowsPerPage}
-      /> */}
-    </Paper>
-  );
+    const lastDataTableElementRef = useCallback(node => {
+
+        if (loadingDataTable) return;
+
+        if (observer.current) observer.current.disconnect();
+
+        observer.current = new IntersectionObserver(entries => {
+
+            entries[0].isIntersecting && setLimit(prevLimit => prevLimit + 10);
+        });
+
+        node && observer.current.observe(node);
+
+    }, [loadingDataTable]);
+
+    return (
+        <Paper sx={{ width: '100%', overflow: 'hidden' }} ref={refPaper || null}>
+            <TableContainer sx={{ maxHeight: 440 }}>
+                <Table stickyHeader aria-label="sticky table">
+                    <TableHeadPage
+                        columns={columns}
+                    />
+
+                    <TableBody className="relative" style={{height: '92px'}}>
+                        {
+                            loadingDataTable ? <tr className='fixed'>
+                                <td><SkeletonLoading widthContainerTable={widthContainerTable} /></td>
+                            </tr>
+                            : data.map((row, index) => (<React.Fragment key={row._id}>{
+                                data.length === index + 1
+                                ? <TableRow
+                                    hover
+                                    role="checkbox"
+                                    tabIndex={-1}
+                                    ref={lastDataTableElementRef}
+                                >
+                                    <Rows row={row} />
+
+                                    <TableCell align="left">
+                                        <Icon
+                                            className="cursor-pointer"
+                                            style={{color: gray}}
+                                            onClick={() => handleEdit(row)}
+                                        >edit_icon</Icon>
+
+                                        <Icon
+                                            className="cursor-pointer ml-3"
+                                            style={{color: gray}}
+                                            onClick={() => handleDelete(row._id)}
+                                        >delete_icon</Icon>
+                                    </TableCell>
+                                </TableRow>
+                                : <TableRow hover role="checkbox" tabIndex={-1}>
+                                    <Rows row={row} />
+
+                                    <TableCell align="left">
+                                        <Icon
+                                            className="cursor-pointer"
+                                            style={{color: gray}}
+                                            onClick={() => handleEdit(row)}
+                                        >edit_icon</Icon>
+
+                                        <Icon
+                                            className="cursor-pointer ml-3"
+                                            style={{color: gray}}
+                                            onClick={() => handleDelete(row._id)}
+                                        >delete_icon</Icon>
+                                    </TableCell>
+                                </TableRow>
+                            }</React.Fragment>))
+                        }
+
+                    </TableBody>
+                </Table>
+            </TableContainer>
+        </Paper>
+    );
 }
 
 export default StickyHeadTable;
