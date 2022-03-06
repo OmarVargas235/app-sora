@@ -14,6 +14,7 @@ import { TypesProps } from '../../main/users/interface';
 import { gray } from '../../assets/css/colors';
 import SkeletonLoading from '../SkeletonLoading';
 import { useResize } from '../../customHooks/useResize';
+import ScreenLoading from '../ScreenLoading';
 
 interface IProps {
     columns:IColumn[];
@@ -22,10 +23,11 @@ interface IProps {
     handleEdit:(data:object)=>void;
     handleDelete:(data:string)=>void;
     loadingDataTable:boolean;
-    getUsers:(limit:number)=>void;
+    getDataTable:(limit:number, textFilter:string)=>void;
+    textFilter:string;
 }
 
-function StickyHeadTable({ columns, Rows, data, handleEdit, handleDelete, loadingDataTable, getUsers }:IProps):JSX.Element {
+function StickyHeadTable({ columns, Rows, data, handleEdit, handleDelete, loadingDataTable, getDataTable, textFilter }:IProps):JSX.Element {
 
     const refPaper = useRef<HTMLDivElement>(null);
     const observer = useRef<any>(null);
@@ -35,17 +37,20 @@ function StickyHeadTable({ columns, Rows, data, handleEdit, handleDelete, loadin
 
     const [size] = useResize();
 
+    useEffect(() => setLimit(10), [textFilter]);
+
     useEffect(() => {
 
         if (!refPaper.current) return;
 
         const { clientWidth } = refPaper.current;
+        console.log(clientWidth);
 
         typeof clientWidth === 'number' && setWidthContainerTable(clientWidth);
 
     }, [refPaper, size]);
     
-    useLayoutEffect(() => getUsers(limit), [limit]);
+    useLayoutEffect(() => getDataTable(limit, textFilter), [limit, textFilter]);
 
     const lastDataTableElementRef = useCallback(node => {
 
@@ -54,7 +59,7 @@ function StickyHeadTable({ columns, Rows, data, handleEdit, handleDelete, loadin
         if (observer.current) observer.current.disconnect();
 
         observer.current = new IntersectionObserver(entries => {
-
+            
             entries[0].isIntersecting && setLimit(prevLimit => prevLimit + 10);
         });
 
@@ -64,64 +69,67 @@ function StickyHeadTable({ columns, Rows, data, handleEdit, handleDelete, loadin
 
     return (
         <Paper sx={{ width: '100%', overflow: 'hidden' }} ref={refPaper || null}>
-            <TableContainer sx={{ maxHeight: 440 }}>
-                <Table stickyHeader aria-label="sticky table">
-                    <TableHeadPage
-                        columns={columns}
-                    />
+            {
+                (!loadingDataTable && data.length === 0)
+                ? <ScreenLoading />
+                : <TableContainer sx={{ maxHeight: 440 }}>
+                    <Table stickyHeader aria-label="sticky table">
+                        <TableHeadPage
+                            columns={columns}
+                        />
 
-                    <TableBody className="relative" style={{height: '92px'}}>
-                        {
-                            loadingDataTable ? <tr className='fixed'>
-                                <td><SkeletonLoading widthContainerTable={widthContainerTable} /></td>
-                            </tr>
-                            : data.map((row, index) => (<React.Fragment key={row._id}>{
-                                data.length === index + 1
-                                ? <TableRow
-                                    hover
-                                    role="checkbox"
-                                    tabIndex={-1}
-                                    ref={lastDataTableElementRef}
-                                >
-                                    <Rows row={row} />
+                        <TableBody className="relative" style={{height: '92px'}}>
+                            {//loadingDataTable
+                                true ? <tr className='fixed'>
+                                    <td><SkeletonLoading widthContainerTable={widthContainerTable} /></td>
+                                </tr>
+                                : data.map((row, index) => (<React.Fragment key={row._id}>{
+                                    data.length === index + 1
+                                    ? <TableRow
+                                        hover
+                                        role="checkbox"
+                                        tabIndex={-1}
+                                        ref={lastDataTableElementRef}
+                                    >
+                                        <Rows row={row} />
 
-                                    <TableCell align="left">
-                                        <Icon
-                                            className="cursor-pointer"
-                                            style={{color: gray}}
-                                            onClick={() => handleEdit(row)}
-                                        >edit_icon</Icon>
+                                        <TableCell align="left">
+                                            <Icon
+                                                className="cursor-pointer"
+                                                style={{color: gray}}
+                                                onClick={() => handleEdit(row)}
+                                            >edit_icon</Icon>
 
-                                        <Icon
-                                            className="cursor-pointer ml-3"
-                                            style={{color: gray}}
-                                            onClick={() => handleDelete(row._id)}
-                                        >delete_icon</Icon>
-                                    </TableCell>
-                                </TableRow>
-                                : <TableRow hover role="checkbox" tabIndex={-1}>
-                                    <Rows row={row} />
+                                            <Icon
+                                                className="cursor-pointer ml-3"
+                                                style={{color: gray}}
+                                                onClick={() => handleDelete(row._id)}
+                                            >delete_icon</Icon>
+                                        </TableCell>
+                                    </TableRow>
+                                    : <TableRow hover role="checkbox" tabIndex={-1}>
+                                        <Rows row={row} />
 
-                                    <TableCell align="left">
-                                        <Icon
-                                            className="cursor-pointer"
-                                            style={{color: gray}}
-                                            onClick={() => handleEdit(row)}
-                                        >edit_icon</Icon>
+                                        <TableCell align="left">
+                                            <Icon
+                                                className="cursor-pointer"
+                                                style={{color: gray}}
+                                                onClick={() => handleEdit(row)}
+                                            >edit_icon</Icon>
 
-                                        <Icon
-                                            className="cursor-pointer ml-3"
-                                            style={{color: gray}}
-                                            onClick={() => handleDelete(row._id)}
-                                        >delete_icon</Icon>
-                                    </TableCell>
-                                </TableRow>
-                            }</React.Fragment>))
-                        }
-
-                    </TableBody>
-                </Table>
-            </TableContainer>
+                                            <Icon
+                                                className="cursor-pointer ml-3"
+                                                style={{color: gray}}
+                                                onClick={() => handleDelete(row._id)}
+                                            >delete_icon</Icon>
+                                        </TableCell>
+                                    </TableRow>
+                                }</React.Fragment>))
+                            }
+                        </TableBody>
+                    </Table>
+                </TableContainer>
+            }
         </Paper>
     );
 }

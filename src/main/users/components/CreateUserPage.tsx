@@ -36,7 +36,7 @@ const CreateUserPage = ({ openModal, dispatchUser, createAndEditUser, handleSubm
             <Grid item xs={9}>
                 <BootstrapInput
                     control={control}
-                    name="username"
+                    name="userName"
                     isPadding={false}
                 />
             </Grid>
@@ -94,7 +94,7 @@ const CreateUserPage = ({ openModal, dispatchUser, createAndEditUser, handleSubm
             <Grid item xs={9}>
                 <AutoCompletePage
                     data={dataAreas}
-                    name="idArea"
+                    name="area"
                     control={control}
                 />
             </Grid>
@@ -108,7 +108,7 @@ const CreateUserPage = ({ openModal, dispatchUser, createAndEditUser, handleSubm
             <Grid item xs={9}>
                 <AutoCompletePage
                     data={dataRoles}
-                    name="idRol"
+                    name="rol"
                     control={control}
                 />
             </Grid>

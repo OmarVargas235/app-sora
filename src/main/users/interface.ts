@@ -14,6 +14,7 @@ export interface IInitState {
     updateUser: boolean;
     dataEdit: object;
     loadingDataTable: boolean;
+    textFilter: string;
 }
 
 export type TypesProps = {

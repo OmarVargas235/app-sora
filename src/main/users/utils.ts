@@ -43,46 +43,46 @@ export const columns: IColumn[] = [
 // Formulario
 
 export type Inputs = {
-    username: string;
+    userName: string;
 	name: string;
 	email: string;
-	idArea: {id:string; label:string} | object;
-	idRol: {id:string; label:string} | object;
+	area: {id:string; label:string} | object;
+	rol: {id:string; label:string} | object;
 	password: string;
     id:string;
 };
 
 export interface IDefaultsValues {
-    username: string;
+    userName: string;
 	name: string;
 	email: string;
-	idArea: {id:string; label:string} | object;
-	idRol: {id:string; label:string} | object;
+	area: {id:string; label:string} | object;
+	rol: {id:string; label:string} | object;
     password: string;
     id:string;
 }
 
 export const defaultValues:IDefaultsValues = {
-	username: '',
+	userName: '',
 	name: '',
 	email: '',
-	idArea: {},
-	idRol: {},
+	area: {},
+	rol: {},
 	password: '',
     id: '',
 };
 
 export const schema = yup.object().shape({
-	username: yup.string().required('El campo de userName es requerido'),
+	userName: yup.string().required('El campo de userName es requerido'),
 	name: yup.string().required('El campo de NOMBRE es requerido'),
 	email: yup.string().required('El campo de EMAIL es requerido'),
 	password: yup.string().required('El campo de PASSWORD es requerido'),
-    idArea: yup.object().shape({
+    area: yup.object().shape({
         id: yup.string().required('El AREA es requerido.'),
     })
     .nullable()
     .required('El AREA es requerido.'),
-    idRol: yup.object().shape({
+    rol: yup.object().shape({
         id: yup.string().required('El ROL es requerido.'),
     })
     .nullable()

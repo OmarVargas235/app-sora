@@ -2,17 +2,14 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 
 import SearchDataTablePage from './SearchDataTablePage';
-import { callAPI } from "../../utils/callAPI";
 
 interface IProps {
-    service:object;
-    typeService:string;
-    dispatch:({type, payload}:{type:string, payload:boolean}) => void;
-    TYPE:string;
+    dispatch:({type, payload}:{type:string, payload:boolean|string}) => void;
     LOADING_DATA_TABLE:string;
+    TEXT_FILTER:string;
 }
 
-const SearchDataTable = ({ service, typeService, dispatch, TYPE, LOADING_DATA_TABLE }:IProps):JSX.Element => {
+const SearchDataTable = ({ dispatch, LOADING_DATA_TABLE, TEXT_FILTER }:IProps):JSX.Element => {
 
     const dispatchRedux = useDispatch();
 
@@ -25,16 +22,16 @@ const SearchDataTable = ({ service, typeService, dispatch, TYPE, LOADING_DATA_TA
         setText(text);
 
         dispatch({ type: LOADING_DATA_TABLE, payload: true });
-
-        callAPI({ service, typeService, data: {text}, dispatch: dispatchRedux, dispatchReducer: dispatch, TYPE, TYPE_LOADING: LOADING_DATA_TABLE });
+        dispatch({ type: TEXT_FILTER, payload: text });
     }
 
     const clearInput = ():void => {
 
         if (text.length === 0) return;
 
-        callAPI({ service, typeService, data: {text: ""}, dispatch, dispatchReducer: dispatch, TYPE });
+        dispatch({ type: TEXT_FILTER, payload: '' });
 
+        dispatch({ type: LOADING_DATA_TABLE, payload: true });
         setText("");
     }
 

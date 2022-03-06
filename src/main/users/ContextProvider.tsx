@@ -64,8 +64,15 @@ const UserProvider = ({ children }:IProps):JSX.Element => {
     }
 
     const editUser = (data:TypesProps):void => {
-
+        
         openModal();
+
+        const newRol = {
+            ...data.rol,
+            description: data.rol.name,
+        }
+
+        data.rol = newRol;
 
         dispatchUser({ type: DATA_EDIT, payload: data });
     }

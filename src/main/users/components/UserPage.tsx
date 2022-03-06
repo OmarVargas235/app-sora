@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 
 import Typography from '@mui/material/Typography';
@@ -7,7 +7,7 @@ import StickyHeadTable from '../../../layaut/table/Table';
 import SearchDataTable from '../../../layaut/filterDataTable/SearchDataTable';
 import { columns } from '../utils';
 import { UserContext } from '../ContextProvider';
-import { DATA_USERS, LOADING_DATA_TABLE } from '../types';
+import { DATA_USERS, LOADING_DATA_TABLE, TEXT_FILTER } from '../types';
 import { serviceUser } from '../../../services/user';
 import TableBodyPage from './Rows';
 import { callAPI } from '../../../utils/callAPI';
@@ -16,11 +16,11 @@ const UserPage = ():JSX.Element => {
 
     const dispatch = useDispatch();
 
-    const { stateUser:{ dataUsers, loadingDataTable }, dispatchUser, editUser, openModal, openModalDelete }:any = useContext( UserContext);
+    const { stateUser:{ dataUsers, loadingDataTable, textFilter }, dispatchUser, editUser, openModal, openModalDelete }:any = useContext( UserContext);
 
-    const getUsers = (limit:number):void => {
-
-        callAPI({ service: serviceUser, typeService: 'getDataUser', data: {limit}, dispatch, dispatchReducer: dispatchUser, TYPE: DATA_USERS, TYPE_LOADING: LOADING_DATA_TABLE });
+    const getUsers = (limit:number, textFilter:string):void => {
+        
+        callAPI({ service: serviceUser, typeService: 'getDataUser', data: {limit, text: textFilter}, dispatch, dispatchReducer: dispatchUser, TYPE: DATA_USERS, TYPE_LOADING: LOADING_DATA_TABLE });
     }
 
     return (
@@ -55,11 +55,9 @@ const UserPage = ():JSX.Element => {
                 </span>
                 
                 <SearchDataTable
-                    service={serviceUser}
-                    typeService='getDataUser'
                     dispatch={dispatchUser}
-                    TYPE={DATA_USERS}
                     LOADING_DATA_TABLE={LOADING_DATA_TABLE}
+                    TEXT_FILTER={TEXT_FILTER}
                 />
             </div>
 
@@ -70,7 +68,8 @@ const UserPage = ():JSX.Element => {
                 handleEdit={editUser}
                 handleDelete={openModalDelete}
                 loadingDataTable={loadingDataTable}
-                getUsers={getUsers}
+                getDataTable={getUsers}
+                textFilter={textFilter}
             />
         </>
     );
