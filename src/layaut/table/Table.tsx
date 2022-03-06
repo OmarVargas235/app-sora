@@ -1,4 +1,5 @@
 import React, { useRef, useEffect, useState, useCallback, useLayoutEffect } from 'react';
+import { useSelector } from 'react-redux';
 
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
@@ -15,6 +16,7 @@ import { gray } from '../../assets/css/colors';
 import SkeletonLoading from '../SkeletonLoading';
 import { useResize } from '../../customHooks/useResize';
 import ScreenLoading from '../ScreenLoading';
+import { RootState } from '../../redux/reducers/';
 
 interface IProps {
     columns:IColumn[];
@@ -29,26 +31,34 @@ interface IProps {
 
 function StickyHeadTable({ columns, Rows, data, handleEdit, handleDelete, loadingDataTable, getDataTable, textFilter }:IProps):JSX.Element {
 
-    const refPaper = useRef<HTMLDivElement>(null);
+    const { isOpen } = useSelector((state:RootState) => state.isOpenNabvarLeft);
+
+    const refPaper = useRef<HTMLDivElement|null>(null);
     const observer = useRef<any>(null);
     
     const [widthContainerTable, setWidthContainerTable] = useState<number|null>(null);
     const [limit, setLimit] = useState<number>(10);
+    const [updateComponent, setUpdateComponent] = useState<boolean>(false);
 
     const [size] = useResize();
 
     useEffect(() => setLimit(10), [textFilter]);
-
+    
     useEffect(() => {
 
         if (!refPaper.current) return;
 
-        const { clientWidth } = refPaper.current;
-        console.log(clientWidth);
+        const { clientWidth, firstChild }:{ clientWidth:number; firstChild:any } = refPaper.current;
+
+        firstChild.scrollLeft = 0;
 
         typeof clientWidth === 'number' && setWidthContainerTable(clientWidth);
 
-    }, [refPaper, size]);
+        const timeout = window.setTimeout(() => setUpdateComponent(isOpen), 190);
+
+        return () => window.clearTimeout(timeout);
+
+    }, [refPaper, size, isOpen, updateComponent]);
     
     useLayoutEffect(() => getDataTable(limit, textFilter), [limit, textFilter]);
 

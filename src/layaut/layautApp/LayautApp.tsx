@@ -1,4 +1,5 @@
-import React, { ReactChildren, ReactChild, useState } from 'react';
+import React, { ReactChildren, ReactChild, useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 
 import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
@@ -6,6 +7,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 
 import NavbarPage from './NavbarPage';
 import OptionsPage from './OptionsPage';
+import { setActive, setDesactive } from '../../redux/reducers/reducerOpenLayautApp';
 
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })<{
   open?: boolean;
@@ -40,7 +42,11 @@ interface IProps {
 
 const LayautApp = ({ children }:IProps):JSX.Element => {
 
+  const dispatch = useDispatch();
+
   const [open, setOpen] = useState<boolean>(false);
+
+  useEffect(() => { open ? dispatch( setActive() ) : dispatch( setDesactive() ) }, [open]);
 
   const handleDrawerOpen = ():void => setOpen(true);
 
