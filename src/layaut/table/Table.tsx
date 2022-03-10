@@ -11,6 +11,7 @@ import Icon from '@mui/material/Icon';
 
 import TableHeadPage from './TableHeadPage';
 import { IColumn } from '../../main/users/utils';
+import { IColumnRol } from '../../main/roles/utils';
 import { TypesProps } from '../../main/users/interface';
 import { gray } from '../../assets/css/colors';
 import SkeletonLoading from '../SkeletonLoading';
@@ -19,7 +20,7 @@ import ScreenLoading from '../ScreenLoading';
 import { RootState } from '../../redux/reducers/';
 
 interface IProps {
-    columns:IColumn[];
+    columns:IColumn[]|IColumnRol[];
     Rows:React.ComponentType<any>;
     data:TypesProps[];
     handleEdit:(data:object)=>void;
@@ -27,9 +28,10 @@ interface IProps {
     loadingDataTable:boolean;
     getDataTable:(limit:number, textFilter:string)=>void;
     textFilter:string;
+    align?:"left" | "center" | "right" | "justify" | "inherit" | undefined;
 }
 
-function StickyHeadTable({ columns, Rows, data, handleEdit, handleDelete, loadingDataTable, getDataTable, textFilter }:IProps):JSX.Element {
+function StickyHeadTable({ columns, Rows, data, handleEdit, handleDelete, loadingDataTable, getDataTable, textFilter, align="left" }:IProps):JSX.Element {
 
     const { isOpen } = useSelector((state:RootState) => state.isOpenNabvarLeft);
 
@@ -89,8 +91,8 @@ function StickyHeadTable({ columns, Rows, data, handleEdit, handleDelete, loadin
                         />
 
                         <TableBody className="relative" style={{height: '92px'}}>
-                            {//loadingDataTable
-                                true ? <tr className='fixed'>
+                            {
+                                loadingDataTable ? <tr className='fixed'>
                                     <td><SkeletonLoading widthContainerTable={widthContainerTable} /></td>
                                 </tr>
                                 : data.map((row, index) => (<React.Fragment key={row._id}>{
@@ -103,7 +105,7 @@ function StickyHeadTable({ columns, Rows, data, handleEdit, handleDelete, loadin
                                     >
                                         <Rows row={row} />
 
-                                        <TableCell align="left">
+                                        <TableCell align={align}>
                                             <Icon
                                                 className="cursor-pointer"
                                                 style={{color: gray}}
@@ -120,7 +122,7 @@ function StickyHeadTable({ columns, Rows, data, handleEdit, handleDelete, loadin
                                     : <TableRow hover role="checkbox" tabIndex={-1}>
                                         <Rows row={row} />
 
-                                        <TableCell align="left">
+                                        <TableCell align={align}>
                                             <Icon
                                                 className="cursor-pointer"
                                                 style={{color: gray}}

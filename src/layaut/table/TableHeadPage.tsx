@@ -5,9 +5,10 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 
 import { IColumn } from '../../main/users/utils';
+import { IColumnRol } from '../../main/roles/utils';
 
 interface IProps {
-    columns: IColumn[];
+    columns: IColumn[]|IColumnRol[];
 }
 
 const TableHeadPage = ({ columns }:IProps):JSX.Element => (

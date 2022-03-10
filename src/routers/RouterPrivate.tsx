@@ -3,6 +3,7 @@ import { Route, Redirect, Switch } from "react-router-dom";
 
 import Home from '../main/home/';
 import User from '../main/users/';
+import Roles from '../main/roles/';
 
 const RouterPrivate = () => (
     <Switch>
@@ -12,6 +13,10 @@ const RouterPrivate = () => (
 
         <Route path="/usuarios">
             <User />
+        </Route>
+
+        <Route path="/roles">
+            <Roles />
         </Route>
 
         <Redirect from="/" to="/home" />
