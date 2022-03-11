@@ -8,8 +8,8 @@ import StickyHeadTable from '../../../layaut/table/Table';
 import SearchDataTable from '../../../layaut/filterDataTable/SearchDataTable';
 import { columns } from '../utils';
 import { RolesContext } from '../ContextProvider';
-import { DATA_USERS, LOADING_DATA_TABLE, TEXT_FILTER } from '../types';
-import { serviceUser } from '../../../services/user';
+// import { DATA_USERS, LOADING_DATA_TABLE, TEXT_FILTER } from '../types';
+import { serviceRoles } from '../../../services/roles';
 import TableBodyPage from './Rows';
 import { callAPI } from '../../../utils/callAPI';
 
@@ -17,11 +17,11 @@ const RolesPage = ():JSX.Element => {
 
     const dispatch = useDispatch();
 
-    const { stateUser:{ dataUsers, loadingDataTable, textFilter }, dispatchUser, editUser, openModal, openModalDelete }:any = useContext( RolesContext);
+    const { stateRoles:{}, dispatchRoles, openModal }:any = useContext( RolesContext);
 
     const getUsers = (limit:number, textFilter:string):void => {
         
-        callAPI({ service: serviceUser, typeService: 'getDataUser', data: {limit, text: textFilter}, dispatch, dispatchReducer: dispatchUser, TYPE: DATA_USERS, TYPE_LOADING: LOADING_DATA_TABLE });
+        // callAPI({ service: serviceUser, typeService: 'getDataUser', data: {limit, text: textFilter}, dispatch, dispatchReducer: dispatchUser, TYPE: DATA_USERS, TYPE_LOADING: LOADING_DATA_TABLE });
     }
 
     return (
@@ -45,12 +45,12 @@ const RolesPage = ():JSX.Element => {
             <StickyHeadTable
                 columns={columns}
                 Rows={TableBodyPage}
-                data={dataUsers}
-                handleEdit={editUser}
-                handleDelete={openModalDelete}
-                loadingDataTable={loadingDataTable}
+                data={[]}
+                handleEdit={()=>{}}
+                handleDelete={()=>{}}
+                loadingDataTable={false}
                 getDataTable={getUsers}
-                textFilter={textFilter}
+                textFilter="textFilter"
                 align="right"
             />
         </>

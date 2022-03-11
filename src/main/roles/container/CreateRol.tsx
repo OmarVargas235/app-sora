@@ -7,14 +7,13 @@ import CreateRolPage from '../components/CreateRolPage';
 import { RolesContext } from '../ContextProvider';
 import { defaultValues, schema, Inputs } from '../utils';
 import { showMessageError } from '../../../utils/helper';
-import { serviceUser } from '../../../services/user';
+import { serviceRoles } from '../../../services/roles';
 import { callAPI } from '../../../utils/callAPI';
 import { setActive } from '../../../redux/reducers/reducerBlockUI';
-import { CLOSE_MODAL_CREATEUSER, DATA_EDIT, UPDATE_USER } from '../types';
-import { usePreLoadDataForm } from '../../../customHooks/usePreLoadDataForm';
-import { useSetStructureSelect } from '../../../customHooks/useSetStructureSelect';
+import { CLOSE_MODAL_CREATEROL } from '../types';
+// import { usePreLoadDataForm } from '../../../customHooks/usePreLoadDataForm';
 
-const valuesForm:string[] = ["userName", "name", "email", "area", "rol"];
+const valuesForm:string[] = ["id", "nameRol"];
 
 const CreateRol = ():JSX.Element => {
 
@@ -25,46 +24,42 @@ const CreateRol = ():JSX.Element => {
         resolver: yupResolver(schema),
     });
 
-    const { stateUser:{ openModal, dataAreas, dataRoles, dataEdit, updateUser }, dispatchUser }:any = useContext( RolesContext );
+    const { stateRoles:{ openModal }, dispatchRoles }:any = useContext( RolesContext );
     
-    usePreLoadDataForm({ dataEdit, setValue, valuesForm });
-
-    const [areas] = useSetStructureSelect({ data: dataAreas });
-    const [roles] = useSetStructureSelect({ data: dataRoles, typeProp: 'name' });
+    // usePreLoadDataForm({ dataEdit, setValue, valuesForm });
 
     useEffect(() => showMessageError({ errors, dispatch }), [errors, dispatch]);
 
     const closeModal = ():void => {
 
-        dispatchUser({ type: CLOSE_MODAL_CREATEUSER });
+        dispatchRoles({ type: CLOSE_MODAL_CREATEROL });
         clearErrors();
-        dispatchUser({ type: DATA_EDIT, payload: {} });
+    //     dispatchRoles({ type: DATA_EDIT, payload: {} });
         valuesForm.forEach((value:any) => setValue(value, "") );
     }
     
-    const createAndEditUser = (model:Inputs):void => {
+    const createAndEditRol = (model:Inputs):void => {
         
-        const isEdit:boolean = Object.keys(dataEdit).length > 0;
-        const { rol, area }:any = model;
-        const typeService = isEdit ? 'editUser' : 'registerUser';
+        console.log(model);
+    //     const isEdit:boolean = Object.keys(dataEdit).length > 0;
+    //     const { rol, area }:any = model;
+    //     const typeService = isEdit ? 'editUser' : 'registerUser';
         
-        model.rol = rol.id;
-        model.area = area.id;
-        model.id = isEdit ? dataEdit['_id'] : null;
+    //     model.rol = rol.id;
+    //     model.area = area.id;
+    //     model.id = isEdit ? dataEdit['_id'] : null;
         
-        callAPI({ service: serviceUser, typeService, data: model, dispatch, dispatchReducer: dispatchUser, closeModal, update: updateUser, UPDATE: UPDATE_USER });
+    //     callAPI({ service: serviceUser, typeService, data: model, dispatch, dispatchReducer: dispatchRoles, closeModal, update: updateUser, UPDATE: UPDATE_USER });
 
-        dispatch( setActive() );
+    //     dispatch( setActive() );
     }
 
     return <CreateRolPage
         openModal={openModal}
-        dispatchUser={dispatchUser}
-        createAndEditUser={createAndEditUser}
+        dispatchRoles={dispatchRoles}
+        createAndEditRol={createAndEditRol}
         handleSubmit={handleSubmit}
         control={control}
-        dataAreas={areas}
-        dataRoles={roles}
         closeModal={closeModal}
     />
 }

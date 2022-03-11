@@ -16,7 +16,7 @@ import { TypesProps } from '../../main/users/interface';
 import { gray } from '../../assets/css/colors';
 import SkeletonLoading from '../SkeletonLoading';
 import { useResize } from '../../customHooks/useResize';
-import ScreenLoading from '../ScreenLoading';
+import AlertPage from '../AlertPage';
 import { RootState } from '../../redux/reducers/';
 
 interface IProps {
@@ -80,69 +80,74 @@ function StickyHeadTable({ columns, Rows, data, handleEdit, handleDelete, loadin
     }, [loadingDataTable]);
 
     return (
-        <Paper sx={{ width: '100%', overflow: 'hidden' }} ref={refPaper || null}>
+        <>
             {
                 (!loadingDataTable && data.length === 0)
-                ? <ScreenLoading />
-                : <TableContainer sx={{ maxHeight: 440 }}>
-                    <Table stickyHeader aria-label="sticky table">
-                        <TableHeadPage
-                            columns={columns}
-                        />
+                ? <AlertPage
+                    text="No hay data"
+                    severity="info"
+                />
+                : <Paper sx={{ width: '100%', overflow: 'hidden' }} ref={refPaper || null}>
+                    <TableContainer sx={{ maxHeight: 440 }}>
+                        <Table stickyHeader aria-label="sticky table">
+                            <TableHeadPage
+                                columns={columns}
+                            />
 
-                        <TableBody className="relative" style={{height: '92px'}}>
-                            {
-                                loadingDataTable ? <tr className='fixed'>
-                                    <td><SkeletonLoading widthContainerTable={widthContainerTable} /></td>
-                                </tr>
-                                : data.map((row, index) => (<React.Fragment key={row._id}>{
-                                    data.length === index + 1
-                                    ? <TableRow
-                                        hover
-                                        role="checkbox"
-                                        tabIndex={-1}
-                                        ref={lastDataTableElementRef}
-                                    >
-                                        <Rows row={row} />
+                            <TableBody className="relative" style={{height: '92px'}}>
+                                {
+                                    loadingDataTable ? <tr className='fixed'>
+                                        <td><SkeletonLoading widthContainerTable={widthContainerTable} /></td>
+                                    </tr>
+                                    : data.map((row, index) => (<React.Fragment key={row._id}>{
+                                        data.length === index + 1
+                                        ? <TableRow
+                                            hover
+                                            role="checkbox"
+                                            tabIndex={-1}
+                                            ref={lastDataTableElementRef}
+                                        >
+                                            <Rows row={row} />
 
-                                        <TableCell align={align}>
-                                            <Icon
-                                                className="cursor-pointer"
-                                                style={{color: gray}}
-                                                onClick={() => handleEdit(row)}
-                                            >edit_icon</Icon>
+                                            <TableCell align={align}>
+                                                <Icon
+                                                    className="cursor-pointer"
+                                                    style={{color: gray}}
+                                                    onClick={() => handleEdit(row)}
+                                                >edit_icon</Icon>
 
-                                            <Icon
-                                                className="cursor-pointer ml-3"
-                                                style={{color: gray}}
-                                                onClick={() => handleDelete(row._id)}
-                                            >delete_icon</Icon>
-                                        </TableCell>
-                                    </TableRow>
-                                    : <TableRow hover role="checkbox" tabIndex={-1}>
-                                        <Rows row={row} />
+                                                <Icon
+                                                    className="cursor-pointer ml-3"
+                                                    style={{color: gray}}
+                                                    onClick={() => handleDelete(row._id)}
+                                                >delete_icon</Icon>
+                                            </TableCell>
+                                        </TableRow>
+                                        : <TableRow hover role="checkbox" tabIndex={-1}>
+                                            <Rows row={row} />
 
-                                        <TableCell align={align}>
-                                            <Icon
-                                                className="cursor-pointer"
-                                                style={{color: gray}}
-                                                onClick={() => handleEdit(row)}
-                                            >edit_icon</Icon>
+                                            <TableCell align={align}>
+                                                <Icon
+                                                    className="cursor-pointer"
+                                                    style={{color: gray}}
+                                                    onClick={() => handleEdit(row)}
+                                                >edit_icon</Icon>
 
-                                            <Icon
-                                                className="cursor-pointer ml-3"
-                                                style={{color: gray}}
-                                                onClick={() => handleDelete(row._id)}
-                                            >delete_icon</Icon>
-                                        </TableCell>
-                                    </TableRow>
-                                }</React.Fragment>))
-                            }
-                        </TableBody>
-                    </Table>
-                </TableContainer>
+                                                <Icon
+                                                    className="cursor-pointer ml-3"
+                                                    style={{color: gray}}
+                                                    onClick={() => handleDelete(row._id)}
+                                                >delete_icon</Icon>
+                                            </TableCell>
+                                        </TableRow>
+                                    }</React.Fragment>))
+                                }
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+                </Paper>
             }
-        </Paper>
+        </>
     );
 }
 
