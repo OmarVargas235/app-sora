@@ -34,24 +34,14 @@ const CreateRol = ():JSX.Element => {
 
         dispatchRoles({ type: CLOSE_MODAL_CREATEROL });
         clearErrors();
-    //     dispatchRoles({ type: DATA_EDIT, payload: {} });
         valuesForm.forEach((value:any) => setValue(value, "") );
     }
     
     const createAndEditRol = (model:Inputs):void => {
         
-        console.log(model);
-    //     const isEdit:boolean = Object.keys(dataEdit).length > 0;
-    //     const { rol, area }:any = model;
-    //     const typeService = isEdit ? 'editUser' : 'registerUser';
-        
-    //     model.rol = rol.id;
-    //     model.area = area.id;
-    //     model.id = isEdit ? dataEdit['_id'] : null;
-        
-    //     callAPI({ service: serviceUser, typeService, data: model, dispatch, dispatchReducer: dispatchRoles, closeModal, update: updateUser, UPDATE: UPDATE_USER });
+        callAPI({ service: serviceRoles, typeService: 'registerRol', data: model, dispatch, dispatchReducer: dispatchRoles, closeModal, update: false, UPDATE: 'UPDATE_USER' });
 
-    //     dispatch( setActive() );
+        dispatch( setActive() );
     }
 
     return <CreateRolPage

@@ -10,7 +10,7 @@ class Roles {
 
             axios
                 .post('/config/create-rol', {
-                    nameRol,
+                    name: nameRol,
                     id,
                 })
                 .then(({data}) => {
