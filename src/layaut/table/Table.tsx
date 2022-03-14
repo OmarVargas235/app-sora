@@ -29,9 +29,10 @@ interface IProps {
     getDataTable:(limit:number, textFilter:string)=>void;
     textFilter:string;
     align?:"left" | "center" | "right" | "justify" | "inherit" | undefined;
+    updateDataTable:boolean;
 }
 
-function StickyHeadTable({ columns, Rows, data, handleEdit, handleDelete, loadingDataTable, getDataTable, textFilter, align="left" }:IProps):JSX.Element {
+function StickyHeadTable({ columns, Rows, data, handleEdit, handleDelete, loadingDataTable, getDataTable, textFilter, align="left", updateDataTable }:IProps):JSX.Element {
 
     const { isOpen } = useSelector((state:RootState) => state.isOpenNabvarLeft);
 
@@ -62,7 +63,7 @@ function StickyHeadTable({ columns, Rows, data, handleEdit, handleDelete, loadin
 
     }, [refPaper, size, isOpen, updateComponent]);
     
-    useLayoutEffect(() => getDataTable(limit, textFilter), [limit, textFilter]);
+    useLayoutEffect(() => getDataTable(limit, textFilter), [limit, textFilter, updateDataTable]);
 
     const lastDataTableElementRef = useCallback(node => {
 

@@ -10,7 +10,7 @@ import { showMessageError } from '../../../utils/helper';
 import { serviceRoles } from '../../../services/roles';
 import { callAPI } from '../../../utils/callAPI';
 import { setActive } from '../../../redux/reducers/reducerBlockUI';
-import { CLOSE_MODAL_CREATEROL } from '../types';
+import { CLOSE_MODAL_CREATEROL, UPDATE_ROL } from '../types';
 // import { usePreLoadDataForm } from '../../../customHooks/usePreLoadDataForm';
 
 const valuesForm:string[] = ["id", "nameRol"];
@@ -24,7 +24,7 @@ const CreateRol = ():JSX.Element => {
         resolver: yupResolver(schema),
     });
 
-    const { stateRoles:{ openModal }, dispatchRoles }:any = useContext( RolesContext );
+    const { stateRoles:{ openModal, updateRol }, dispatchRoles }:any = useContext( RolesContext );
     
     // usePreLoadDataForm({ dataEdit, setValue, valuesForm });
 
@@ -39,7 +39,7 @@ const CreateRol = ():JSX.Element => {
     
     const createAndEditRol = (model:Inputs):void => {
         
-        callAPI({ service: serviceRoles, typeService: 'registerRol', data: model, dispatch, dispatchReducer: dispatchRoles, closeModal, update: false, UPDATE: 'UPDATE_USER' });
+        callAPI({ service: serviceRoles, typeService: 'registerRol', data: model, dispatch, dispatchReducer: dispatchRoles, closeModal, update: updateRol, UPDATE: UPDATE_ROL });
 
         dispatch( setActive() );
     }

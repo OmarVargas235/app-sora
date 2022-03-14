@@ -65,18 +65,18 @@ class User {
         });
     }
 
-    public registerUser({email, idArea, idRol, name, username, password}:TypeCreateUser):Promise<void> {
+    public registerUser({email, area, rol, name, userName, password}:TypeCreateUser):Promise<void> {
         
         return new Promise((resolve, reject) => {
 
             axios
                 .post('/config/create-user', {
-                    userName: username,
+                    userName,
                     name,
                     email,
                     password,
-                    idRol,
-                    idArea,
+                    idRol: rol,
+                    idArea: area,
                 })
                 .then(({data}) => {
 
@@ -93,18 +93,18 @@ class User {
         });
     }
 
-    public editUser({email, idArea, idRol, name, username, password, id}:TypeCreateUser):Promise<void> {
+    public editUser({email, area, rol, name, userName, password, id}:TypeCreateUser):Promise<void> {
 
         return new Promise((resolve, reject) => {
 
             axios
                 .put('/config/update-user', {
-                    userName: username,
+                    userName,
                     name,
                     email,
                     password,
-                    idRol,
-                    idArea,
+                    idRol: rol,
+                    idArea: area,
                     id,
                 })
                 .then(({data}) => {

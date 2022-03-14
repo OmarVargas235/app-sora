@@ -1,4 +1,4 @@
-import React, { useContext, useCallback } from 'react';
+import React, { useContext } from 'react';
 import { useDispatch } from 'react-redux';
 
 import Typography from '@mui/material/Typography';
@@ -16,7 +16,7 @@ const UserPage = ():JSX.Element => {
 
     const dispatch = useDispatch();
 
-    const { stateUser:{ dataUsers, loadingDataTable, textFilter }, dispatchUser, editUser, openModal, openModalDelete }:any = useContext( UserContext);
+    const { stateUser:{ dataUsers, loadingDataTable, textFilter, updateUser }, dispatchUser, editUser, openModal, openModalDelete }:any = useContext( UserContext);
 
     const getUsers = (limit:number, textFilter:string):void => {
         
@@ -70,6 +70,7 @@ const UserPage = ():JSX.Element => {
                 loadingDataTable={loadingDataTable}
                 getDataTable={getUsers}
                 textFilter={textFilter}
+                updateDataTable={updateUser}
             />
         </>
     );

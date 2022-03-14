@@ -12,7 +12,7 @@ interface IPropsRows {
 const TableBodyPage = ({ row }:IPropsRows):JSX.Element => (
     <>
         <TableCell align={align}>
-            rol
+            {row.name}
         </TableCell>
     </>
 );

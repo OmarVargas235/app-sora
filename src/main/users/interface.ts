@@ -30,10 +30,10 @@ export type TypesProps = {
 
 export type TypeCreateUser = {
     email:string;
-    idArea:string;
-    idRol:string;
+    area:string;
+    rol:string;
     name:string;
-    username:string;
+    userName:string;
     password:string;
     id:string;
 }

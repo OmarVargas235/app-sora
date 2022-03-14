@@ -39,7 +39,7 @@ const CreateUser = ():JSX.Element => {
         dispatchUser({ type: CLOSE_MODAL_CREATEUSER });
         clearErrors();
         dispatchUser({ type: DATA_EDIT, payload: {} });
-        valuesForm.forEach((value:any) => setValue(value, "") );
+        [...valuesForm, 'password'].forEach((value:any) => setValue(value, "") );
     }
     
     const createAndEditUser = (model:Inputs):void => {
