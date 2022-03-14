@@ -26,9 +26,13 @@ const TableBodyPage = ({ row }:IPropsRows):JSX.Element => (
         <TableCell align={align}>
             {row.area?.description || ""}
         </TableCell>
-
+    
         <TableCell align={align}>
-            {row.rol.name}
+            {
+                row.rol
+                ? row.rol.name
+                : null
+            }
         </TableCell>
 
         <TableCell align={align}>

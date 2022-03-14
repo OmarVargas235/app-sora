@@ -11,6 +11,7 @@ export interface IInitState {
     dataRoles: object[],
     loadingDataTable: boolean,
     updateRol:boolean;
+    dataEdit:object;
 }
 
 export type TypesProps = {
@@ -19,7 +20,8 @@ export type TypesProps = {
     _id: string;
 }
 
-export type TypeCreateRol = {
+export type TypeCreateAndEditRol = {
     nameRol:string;
     id:string;
+    _id:string;
 }

@@ -1,4 +1,4 @@
-import { OPEN_MODAL_CREATEROL, CLOSE_MODAL_CREATEROL, DATA_ROLES, LOADING_DATA_TABLE, UPDATE_ROL } from './types';
+import { OPEN_MODAL_CREATEROL, CLOSE_MODAL_CREATEROL, DATA_ROLES, LOADING_DATA_TABLE, UPDATE_ROL, DATA_EDIT } from './types';
 import { IInitState } from './interface';
 
 export const initState:IInitState = {
@@ -6,6 +6,7 @@ export const initState:IInitState = {
     dataRoles: [],
     loadingDataTable: true,
     updateRol: false,
+    dataEdit: {},
 }
 
 export const reducer = (state=initState, { type, payload }:{type:string, payload:any}):IInitState => {
@@ -40,6 +41,12 @@ export const reducer = (state=initState, { type, payload }:{type:string, payload
             return {
                 ...state,
                 updateRol: payload,
+            };
+
+        case DATA_EDIT:
+            return {
+                ...state,
+                dataEdit: payload,
             };
 
         default:

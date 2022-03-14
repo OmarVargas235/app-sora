@@ -11,7 +11,7 @@ import { serviceRoles } from '../../../services/roles';
 import { callAPI } from '../../../utils/callAPI';
 import { setActive } from '../../../redux/reducers/reducerBlockUI';
 import { CLOSE_MODAL_CREATEROL, UPDATE_ROL } from '../types';
-// import { usePreLoadDataForm } from '../../../customHooks/usePreLoadDataForm';
+import { usePreLoadDataForm } from '../../../customHooks/usePreLoadDataForm';
 
 const valuesForm:string[] = ["id", "nameRol"];
 
@@ -24,9 +24,9 @@ const CreateRol = ():JSX.Element => {
         resolver: yupResolver(schema),
     });
 
-    const { stateRoles:{ openModal, updateRol }, dispatchRoles }:any = useContext( RolesContext );
+    const { stateRoles:{ openModal, updateRol, dataEdit }, dispatchRoles }:any = useContext( RolesContext );
     
-    // usePreLoadDataForm({ dataEdit, setValue, valuesForm });
+    usePreLoadDataForm({ dataEdit, setValue, valuesForm });
 
     useEffect(() => showMessageError({ errors, dispatch }), [errors, dispatch]);
 
@@ -39,7 +39,11 @@ const CreateRol = ():JSX.Element => {
     
     const createAndEditRol = (model:Inputs):void => {
         
-        callAPI({ service: serviceRoles, typeService: 'registerRol', data: model, dispatch, dispatchReducer: dispatchRoles, closeModal, update: updateRol, UPDATE: UPDATE_ROL });
+        const isEdit:boolean = Object.keys(dataEdit).length > 0;
+        const typeService = isEdit ? 'editRol' : 'registerRol';
+        model._id = isEdit ? dataEdit['_id'] : null;
+
+        callAPI({ service: serviceRoles, typeService, data: model, dispatch, dispatchReducer: dispatchRoles, closeModal, update: updateRol, UPDATE: UPDATE_ROL });
 
         dispatch( setActive() );
     }

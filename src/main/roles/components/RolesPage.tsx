@@ -16,7 +16,7 @@ const RolesPage = ():JSX.Element => {
 
     const dispatch = useDispatch();
 
-    const { stateRoles:{ dataRoles, loadingDataTable, updateRol }, dispatchRoles, openModal }:any = useContext( RolesContext);
+    const { stateRoles:{ dataRoles, loadingDataTable, updateRol }, dispatchRoles, openModal, editRol }:any = useContext( RolesContext);
 
     const getRoles = (limit:number):void => {
         
@@ -45,7 +45,7 @@ const RolesPage = ():JSX.Element => {
                 columns={columns}
                 Rows={TableBodyPage}
                 data={dataRoles}
-                handleEdit={()=>{}}
+                handleEdit={editRol}
                 handleDelete={()=>{}}
                 loadingDataTable={loadingDataTable}
                 getDataTable={getRoles}

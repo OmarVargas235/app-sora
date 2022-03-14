@@ -14,6 +14,7 @@ export const columns: IColumnRol[] = [
 // Formulario
 export type Inputs = {
     id:string;
+    _id:string;
 	nameRol: string;
 };
 

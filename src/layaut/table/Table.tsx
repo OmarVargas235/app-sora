@@ -1,5 +1,6 @@
 import React, { useRef, useEffect, useState, useCallback, useLayoutEffect } from 'react';
 import { useSelector } from 'react-redux';
+import { useParams, useLocation } from 'react-router-dom';
 
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
@@ -32,9 +33,13 @@ interface IProps {
     updateDataTable:boolean;
 }
 
+const isDelete = ['/usuarios'];
+
 function StickyHeadTable({ columns, Rows, data, handleEdit, handleDelete, loadingDataTable, getDataTable, textFilter, align="left", updateDataTable }:IProps):JSX.Element {
 
     const { isOpen } = useSelector((state:RootState) => state.isOpenNabvarLeft);
+
+    const { pathname } = useLocation();
 
     const refPaper = useRef<HTMLDivElement|null>(null);
     const observer = useRef<any>(null);
@@ -117,11 +122,15 @@ function StickyHeadTable({ columns, Rows, data, handleEdit, handleDelete, loadin
                                                     onClick={() => handleEdit(row)}
                                                 >edit_icon</Icon>
 
-                                                <Icon
-                                                    className="cursor-pointer ml-3"
-                                                    style={{color: gray}}
-                                                    onClick={() => handleDelete(row._id)}
-                                                >delete_icon</Icon>
+                                                {
+                                                    isDelete.includes(pathname)
+                                                    ? <Icon
+                                                        className="cursor-pointer ml-3"
+                                                        style={{color: gray}}
+                                                        onClick={() => handleDelete(row._id)}
+                                                    >delete_icon</Icon>
+                                                    : null
+                                                }
                                             </TableCell>
                                         </TableRow>
                                         : <TableRow hover role="checkbox" tabIndex={-1}>
@@ -134,11 +143,15 @@ function StickyHeadTable({ columns, Rows, data, handleEdit, handleDelete, loadin
                                                     onClick={() => handleEdit(row)}
                                                 >edit_icon</Icon>
 
-                                                <Icon
-                                                    className="cursor-pointer ml-3"
-                                                    style={{color: gray}}
-                                                    onClick={() => handleDelete(row._id)}
-                                                >delete_icon</Icon>
+                                                {
+                                                    isDelete.includes(pathname)
+                                                    ? <Icon
+                                                        className="cursor-pointer ml-3"
+                                                        style={{color: gray}}
+                                                        onClick={() => handleDelete(row._id)}
+                                                    >delete_icon</Icon>
+                                                    : null
+                                                }
                                             </TableCell>
                                         </TableRow>
                                     }</React.Fragment>))

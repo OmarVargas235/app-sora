@@ -1,6 +1,6 @@
 import axios from "axios";
 
-import { TypeCreateRol } from "../main/roles/interface";
+import { TypeCreateAndEditRol } from "../main/roles/interface";
 
 class Roles {
 
@@ -27,7 +27,7 @@ class Roles {
         });
     }
 
-    public registerRol({ nameRol, id }:TypeCreateRol):Promise<void> {
+    public registerRol({ nameRol, id }:TypeCreateAndEditRol):Promise<void> {
         
         return new Promise((resolve, reject) => {
 
@@ -44,6 +44,31 @@ class Roles {
                 })
                 .catch(({response:{data} }) => {
 
+                    data
+                    ? reject(data.data)
+                    : reject("Ha ocurrido un error");
+                });
+        });
+    }
+
+    public editRol({ nameRol, id, _id }:TypeCreateAndEditRol):Promise<void> {
+        
+        return new Promise((resolve, reject) => {
+
+            axios
+                .put('/config/update-rol', {
+                    name: nameRol,
+                    id,
+                    _id,
+                })
+                .then(({data}) => {
+
+                    !data.error
+                    ? resolve(data.data)
+                    : reject(data.data);
+                })
+                .catch(({response:{data} }) => {
+                    
                     data
                     ? reject(data.data)
                     : reject("Ha ocurrido un error");
